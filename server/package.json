@@ -1,0 +1,26 @@
+{
+  "name": "duty-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "engine": "16.14.2",
+  "scripts": {
+    "start": "node server.js",
+    "watch": "nodemon",
+    "seed": "node seeders/seeds.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-express": "^3.6.7",
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.2",
+    "faker": "^4.1.0",
+    "graphql": "^16.4.0",
+    "mongoose": "^6.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
+  }
+}
