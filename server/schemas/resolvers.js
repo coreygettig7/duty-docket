@@ -1,4 +1,4 @@
-const { AuthenicateError } = require('apollo-server-express');
+const { AuthenticationError } = require('apollo-server-express');
 const User = require('../models');
 
 const resolvers = {
@@ -10,7 +10,7 @@ const resolvers = {
 
                     return userData;
             }
-            //throw new AuthenicateError("Not logged in");
+            throw new AuthenticationError('Not logged in');
         },
         users: async() => {
             return User.find()
@@ -21,6 +21,29 @@ const resolvers = {
                 .select('-__v -password')
         }
     },
+
+    Mutation: {
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
+
+            return user;
+        },
+
+        login: async (parent, { email, password }) => {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
+            const correctPW = await user.isCorrectPassword(password);
+
+            if (!correctPW) {
+                throw new AuthenticationError('Incorrect credentials');
+            }
+
+            return user;
+        }
+    }
 
 };
 
