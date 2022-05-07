@@ -13,11 +13,11 @@ function App() {
       <header>
         <h1 className='logo-text'>Duty Docket</h1>
       </header>
-      
+  
       <main className='u-flex u-items-center u-justify-space-evenly'>
         <Welcome />
         <div className='icon-container u-flex-grow-0'>
-          <img src={logo} />
+          <img src={logo} alt="Duty Docket Logo"/>
         </div>
       </main>
     </div>
