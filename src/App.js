@@ -3,6 +3,7 @@ import React from 'react';
 import {Helmet} from 'react-helmet';
 import './App.css';
 import Welcome from './pages/Welcome';
+import Dashboard from './pages/Dashboard';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <div className='icon-container u-flex-grow-0'>
           <img src={logo} alt="Duty Docket Logo"/>
         </div>
+        <Dashboard/>
       </main>
     </div>
   
