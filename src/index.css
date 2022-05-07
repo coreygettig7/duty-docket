@@ -29,3 +29,11 @@ main {
 .tertiary-bg{
   background-color: var(--secondary);
 }
+
+.border_{
+  border: 3px solid black;
+}
+
+.icon-container {
+  width: 40%;
+}
