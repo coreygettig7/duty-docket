@@ -1,7 +1,7 @@
 import React from "react";
 
 function Navigation(props) {
-  const tabs = ['Daily Duties', "Dudy Docket", "Duty Delegation", "Settings"];
+  const tabs = ['Daily Duties', "Duty Docket", "Duty Delegation", "Duty Deposit", "Duty Display"];
   return (
     <div className="tabs is-centered">
       <ul className="nav nav-tabs">
