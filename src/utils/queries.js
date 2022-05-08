@@ -6,6 +6,16 @@ export const QUERY_USER = gql`
         firstName
         lastName
         email
+        dependents {
+            _id
+            firstName
+            lastName
+        }
+        duties {
+            dutyName
+            dutyValue
+            dutyDescription
+        }
     }
 `;
 
