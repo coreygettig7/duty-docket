@@ -8,8 +8,8 @@ const lockIcon = <FontAwesomeIcon icon={faLock} />
 
 function Login() {
   return (
-    <section id="login-form" className='form-wrapper card u-flex'>
-      <form className='w-40p card_container form-card p-4'>
+    <section id="login-form" className='form-wrapper card u-flex u-justify-center'>
+      <form className='card_container form-card p-4'>
         <h3 className='dark-text'>Sign In</h3>
         <div className='input-control pb-2'>
           <label>Email address</label>
