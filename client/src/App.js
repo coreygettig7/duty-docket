@@ -33,7 +33,6 @@ function App() {
         <div className='icon-container u-flex-grow-0'>
           <img src={logo} alt="Duty Docket Logo"/>
         </div>
-        <Dashboard/>
       </main>
     </div>
   
