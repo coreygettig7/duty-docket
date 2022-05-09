@@ -5,7 +5,7 @@ import Nav from '../components/Nav';
 const Dashboard = () => {
   return (
     <div>
-      <Header />
+      <Header/>
     </div>
   )
 }
