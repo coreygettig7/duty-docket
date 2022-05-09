@@ -2,7 +2,7 @@ const dependentSchema = require('./Dependent');
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
-    const userSchema = new Schema(
+const userSchema = new Schema(
     {
         username: {
             type: String,
@@ -33,11 +33,11 @@ const bcrypt = require("bcrypt");
             virtuals: true
         }
     }
-);
+    );
 
 // Set up pre-save middleware to create password
-userSchema.pre("save", async function(next) {
-    if(this.isNew || this.isModified("password")) {
+userSchema.pre('save', async function(next) {
+    if(this.isNew || this.isModified('password')) {
         const saltRounds = 10;
         this.password = await bcrypt.hash(this.password, saltRounds);
     }
