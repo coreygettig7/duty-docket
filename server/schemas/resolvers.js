@@ -1,5 +1,10 @@
 const { AuthenticationError } = require('apollo-server-express');
+<<<<<<< HEAD
 const { User, Duty } = require('../models');
+=======
+const { signToken } = require('../utils/auth');
+const { User, Dependent, Duty } = require('../models');
+>>>>>>> 0c25c3c36364edbd0c5948c79fa13ddaac9c4d7b
 
 const resolvers = {
     Query: {
@@ -19,14 +24,83 @@ const resolvers = {
         user: async (parent, { firstName, lastName }) => {
             return User.findOne({ firstName, lastName })
                 .select('-__v -password')
-        }
+        },
     },
 
     Mutation: {
         addUser: async (parent, args) => {
             const user = await User.create(args);
+            const token = signToken(user);
 
-            return user;
+            return { token, user };
+        },
+
+        addDependent: async (parent, { firstName, lastName }, context) => {
+            if (context.user) {
+                const newDependent = await Dependent.create({
+                    firstName,
+                    lastName,
+                    user: context.user.dependent
+                });
+
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { dependents: newDependent._id } },
+                    { new: true }
+                );
+                
+                return newDependent;
+            }
+                throw new AuthenticationError('Please login to continue');
+        },
+
+        addDuty: async (parent, { duty }, context) => {
+            if (context.user) {
+                const newDuty = await Duty.create({
+                    dutyName,
+                    dutyValue,
+                    dutyDescription,
+                    user: context.user.duty
+                });
+
+                await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $addToSet: { duty: newDuty._id } },
+                    { new: true }
+                );
+                return newDuty;
+            }
+                throw new AuthenticationError('Please login to continue');
+        },
+
+        updateDuty: async (parent, args, context) => {
+            if (context.user) {
+                let finduser = await User.findOne({
+                    _id: context.user._id,
+                });
+
+                let Duty = finduser.duties.find((Duty) => {
+                    return Duty._id === args._id;
+                });
+
+                Duty.dutyName = args.dutyName;
+                Duty.dutyValue = args.dutyValue;
+                duty.dutyDescription = args.dutyDescription;
+
+                return await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $set: { duties: findUser.Duty } },
+                    { new: true }
+                );
+            }
+                throw AuthenticationError('Please login to continue');
+        },
+
+        removeDuty: async (parent, { _id }, context) => {
+            if (context.user) {
+                return await Duty.findOneAndDelete({ _id: _id });
+            }
+                throw AuthenticationError('Please login to continue');
         },
 
         login: async (parent, { email, password }) => {
@@ -40,8 +114,8 @@ const resolvers = {
             if (!correctPW) {
                 throw new AuthenticationError('Incorrect credentials');
             }
-
-            return user;
+            const token = signToken(user);
+            return { token, user };
         }
     }
 
