@@ -9,17 +9,23 @@ const typeDefs = gql`
         firstName: String
         lastName: String
         email: String
+        dependents: [Dependent]
+        duties: [Duty]
     }
 
-    type Query {
-        me: User
-        users: [User]
-        user(firstName: String!, lastName: String!, email: String!): User
+    type Dependent {
+        _id: ID
+        firstName: String
+        lastName: String
+        duties: [Duty]
     }
 
-    type Mutation {
-        login(email: String!, password: String!): Auth
-        addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    type Duty {
+        _id: ID
+        dutyName: String
+        dutyValue: Float
+        dutyDescription: String
+
     }
 
     type Auth {
@@ -27,6 +33,23 @@ const typeDefs = gql`
         user: User
     }
 
+    type Query {
+        me: User
+        users: [User]
+        user(firstName: String!, lastName: String!, email: String!): User
+        dependents(firstName: String, lastName: String): [Dependent]
+        dependent(_id: ID!): Dependent
+        duties(dutyName: String): User
+    }
+
+    type Mutation {
+        login(email: String!, password: String!): User
+        addUser(firstName: String!, lastName: String!, email: String!, password: String!): User
+        addDependent(firstName: String!, lastName: String!): Dependent
+        addDuty(dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
+        updateDuty(_id: ID, dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
+        removeDuty(_id: ID!): Duty
+    }
 `;
 
 module.exports = typeDefs;

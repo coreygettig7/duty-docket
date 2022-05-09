@@ -1,9 +1,9 @@
 const faker = require('faker');
-const userSeeds = require("./userSeed.json");
-const db = require("../config/connection");
-const User = require("../models");
+const userSeeds = require('./userSeed.json');
+const db = require('../config/connection');
+const User = require('../models');
 
-db.once("open", async () => {
+db.once('open', async () => {
     try {
         await User.create(userSeeds);
     }
@@ -11,6 +11,6 @@ db.once("open", async () => {
         console.error(err);
         process.exit(1);
     }
-    console.log("all done!");
+    console.log('all done!');
     process.exit(0);
 });
