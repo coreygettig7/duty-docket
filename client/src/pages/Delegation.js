@@ -1,61 +1,46 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { ADD_DUTY, UPDATE_DUTY, REMOVE_DUTY } from '../utils/mutations';
-import { QUERY_USER } from '../utils/queries';
+import { ADD_DUTY } from '../utils/mutations';
+
 import auth from '../utils/auth';
 
 import 'cirrus-ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Dutyform = ({ Duty }) => {
-    const [newDuty, setNewDuty] = useState({
-        dutyName: '',
-        dutyValue: '',
-        dutyDescription: ''
+function Dutyform(props) {
+    const [formState, setFormState] = useState ({
+            dutyName: '',
+            dutyValue: '',
+            dutyDescription: ''
     });
-
-    const [addDuty] = useMutation(ADD_DUTY, {
-        refetchQueries: [{ query: QUERY_USER }]
-    });
+    const [addDuty] = useMutation(ADD_DUTY);
 
     const handleFormSubmit = async (event) => {
         event.preventDefault();
+        const mutationResponse = await addDuty({
+            variables: {
+                dutyName: formState.dutyName,
+                dutyValue: formState.dutyValue,
+                dutyDescription: formState.dutyDescription
+            },
+        });
 
-        try {
-            const user = Auth.getProfile();
-            await addDuty({
-                variables: {
-                    dutyName: newDuty.dutyName,
-                    dutyValue: newDuty.dutyValue,
-                    dutyDescription: newDuty.dutyDescription,
-                    user: user.data._id
-                },
-            });
-            setNewDuty({
-                dutyName: '',
-                dutyValue: '',
-                dutyDescription: '',
-            });
-        }
-        catch(error) {
-            console.log(error);
-        }
-    };
+        const token = mutationResponse.data.addDuty.token;
+        auth.login(token);
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-
-        setNewDuty({
-            ...newDuty,
+        setFormState({
+            ...formState,
             [name]: value,
         });
     };
 
     return (
         <>
-        <section id='addDuty-Form' className=''>
+        <div id='addDuty-Form' className=''>
             <form onSubmit={handleFormSubmit}>
-                    <label>Duty Name</label>
+                    <label htmlFor="dutyName">Duty Name</label>
                     <input
                         value={newDuty.dutyName}
                         placeholder='Name this Duty'
@@ -65,7 +50,7 @@ const Dutyform = ({ Duty }) => {
                         onChange={handleChange}
                     />
 
-                    <label>Duty Value</label>
+                    <label htmlFor="dutyValue">Duty Value</label>
                     <input
                         value={newDuty.dutyValue}
                         placeholder='Allowance'
@@ -75,7 +60,7 @@ const Dutyform = ({ Duty }) => {
                         onChange={handleChange}
                     />
 
-                    <label>Duty Description</label>
+                    <label htmlFor="dutyDescription">Duty Description</label>
                     <input
                         value={newDuty.dutyDescription}
                         placeholder='Description'
@@ -84,8 +69,14 @@ const Dutyform = ({ Duty }) => {
                         id='dutyDescription'
                         onChange={handleChange}
                     />
+                    <div>
+                        <button type='submit'>Submit</button>
+                    </div>
             </form>
-        </section>
+        </div>
         </>
-    )
+    );
+    }
 }
+
+export default Dutyform;

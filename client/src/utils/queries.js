@@ -30,13 +30,10 @@ export const QUERY_ME = gql`
     }
 `;
 
-export const QUERY_ME_BASIC = gql`
-    {
-        me {
-            _id
-            firstName
-            lastName
-            email
-        }
-    }
+export const QUERY_DUTIES = gql`
+   {
+       dutyName
+       dutyValue
+       dutyDescription
+   }
 `;
