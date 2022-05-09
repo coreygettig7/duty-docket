@@ -12,7 +12,6 @@ const dependentSchema = new Schema({
         required: false,
         trim: true
     },
-    duties: [dutySchema]
 },
     {
         toJSON: {
@@ -21,9 +20,6 @@ const dependentSchema = new Schema({
     }
 );
 
-dependentSchema.virtual('dutyCount').get(function() {
-    return this.duties.length;
-});
 
 const Dependent = model('Dependent', dependentSchema);
 

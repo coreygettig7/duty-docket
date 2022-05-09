@@ -43,12 +43,12 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        login(email: String!, password: String!): Auth
+        login(email: String!, password: String!): User
         addUser(firstName: String!, lastName: String!, email: String!, password: String!): User
-        addDependent(firstName: String!, lastName: String!): User
-        addDuty(dutyName: String!, dutyValue: Float!, dutyDescription: String!): User
-        updateDuty(_id: ID, dutyName: String!, dutyValue: Float!, dutyDescription: String!): User
-        removeDuty(_id: ID!): User
+        addDependent(firstName: String!, lastName: String!): Dependent
+        addDuty(dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
+        updateDuty(_id: ID, dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
+        removeDuty(_id: ID!): Duty
     }
 `;
 

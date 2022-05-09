@@ -50,7 +50,7 @@ const resolvers = {
                 throw new AuthenticationError('Please login to continue');
         },
 
-        addDuty: async (parent, { duties }, context) => {
+        addDuty: async (parent, { duty }, context) => {
             if (context.user) {
                 const newDuty = await Duty.create({
                     dutyName,
@@ -61,7 +61,7 @@ const resolvers = {
 
                 await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { duties: newDuty._id } },
+                    { $addToSet: { duty: newDuty._id } },
                     { new: true }
                 );
                 return newDuty;
