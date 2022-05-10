@@ -17,7 +17,7 @@ const localizer = dateFnsLocalizer({
   getDay,
   locales
 });
-const myEventsList = [
+const myDutyList = [
   { start: new Date(), end: new Date(), title: "special event" }
 ];
 export default function App() {
@@ -25,7 +25,7 @@ export default function App() {
     <div className="App">
       <Calendar
         localizer={localizer}
-        events={myEventsList}
+        duties={myDutyList}
         startAccessor="start"
         endAccessor="end"
         style={{ height: 500 }}
