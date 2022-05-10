@@ -5,6 +5,19 @@ import './App.css';
 import Welcome from './pages/Welcome';
 import Dashboard from './pages/Dashboard';
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink
+} from '@apollo/client';
+
+const httpLink = createHttpLink({
+  uri: '/graphql'
+})
+
 function App() {
   return (
     <div className='u-flex-column u-justify-center'>
@@ -20,7 +33,6 @@ function App() {
         <div className='icon-container u-flex-grow-0'>
           <img src={logo} alt="Duty Docket Logo"/>
         </div>
-        <Dashboard/>
       </main>
     </div>
   
