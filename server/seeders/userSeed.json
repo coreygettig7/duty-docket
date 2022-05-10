@@ -1,14 +1,16 @@
 [
     {
-        "firstName": "Jessica",
-        "lastName": "Day",
-        "email": "jday@email.com",
-        "password": "kGjRfUNWUIRwfS_"
+        "username": "Jessica",
+        "email": "jessica@email.com",
+        "password": "kGjRfUNWUIRwfS_",
+        "dependents": "Rachel",
+        "duties": "Floors"
     },
     {
-        "firstName": "Nick",
-        "lastName": "Miller",
-        "email": "nmiller@email.com",
-        "password": "otK5YtXpcalD1cm"
+        "username": "Nick",
+        "email": "nick@email.com",
+        "password": "otK5YtXpcalD1cm",
+        "dependents": "Ross",
+        "duties": "Bathrooms"
     }
 ]

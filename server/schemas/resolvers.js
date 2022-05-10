@@ -8,6 +8,7 @@ const resolvers = {
             if (context.user) {
                 const userData = await User.findOne({})
                     .select("-__v -password")
+                    .populate('dependents')
 
                     return userData;
             }
@@ -16,11 +17,19 @@ const resolvers = {
         users: async() => {
             return User.find()
                 .select('-__v -password')
+                .populate('dependents')
         },
-        user: async (parent, { firstName, lastName }) => {
-            return User.findOne({ firstName, lastName })
+        user: async (parent, { username }) => {
+            return User.findOne({ username })
                 .select('-__v -password')
+                .populate('dependents')
         },
+        dependent: async(parent, { dependentName }) => {
+            return Dependent.findOne({ dependentName })
+        },
+        duties: async() => {
+            return await Duty.find()
+        }
     },
 
     Mutation: {
@@ -28,55 +37,54 @@ const resolvers = {
             const user = await User.create(args);
             //const token = signToken(user);
 
-            return { user };
+            return user;
         },
 
         addDependent: async (parent, args) => {
             const newDependent = await Dependent.create(args);
+
+            await User.findOneAndUpdate(
+                { _id: args.user_id },
+                { $push: { dependents: newDependent._id } },
+                { new: true }
+            )
                 
             return newDependent;
         },
 
-        addDuty: async (parent, { dependent }, context) => {
-            if (context.dependent) {
-                const duty = new Duty({ dependent });
+        addDuty: async (parent, args) => {
+            const newDuty = await Duty.create(args)
 
-                await Dependent.findByIdAndUpdate(
-                    context.dependent._id,
-                    { $push: { duties: duty }}
-                );
-                return duty;
-            }
+            await Dependent.findOneAndUpdate(
+                { _id: args.dependent_id },
+                { $push: { duties: newDuty._id } },
+                { new: true }
+            )
+                return newDuty;
             
                 //throw new AuthenticationError('Please login to continue');
         },
 
-        updateDuty: async (parent, args, context) => {
-            if (context.user) {
-                let finduser = await User.findOne({
-                    _id: context.user._id,
-                });
-
-                let Duty = finduser.duties.find((Duty) => {
-                    return Duty._id === args._id;
-                });
-
-                Duty.dutyName = args.dutyName;
-                Duty.dutyValue = args.dutyValue;
-                duty.dutyDescription = args.dutyDescription;
-
-                return await User.findOneAndUpdate(
-                    { _id: context.user._id },
-                    { $push: { duties: findUser.Duty } },
-                    { new: true }
-                );
-            }
+        updateDuty: async (parent, args) => {
+            const updateduty = await Duty.findByIdAndUpdate(
+                { _id: args._id },
+                args,
+                { new: true }
+            )
+                return updateduty;
+            
                 //throw AuthenticationError('Please login to continue');
         },
 
-        removeDuty: async (parent, { _id }, context) => {
+        removeDuty: async (parent, { dependentId, dutyId }, context) => {
             if (context.user) {
-                return await Duty.findOneAndDelete({ _id: _id });
+                const deleteDuty = await Dependent.findOneAndUpdate(
+                    { _id: dutyId },
+                    { $pull: { duties: { _id: dutyId } } },
+                    { new: true }
+                )
+
+                return deleteDuty;
             }
                // throw AuthenticationError('Please login to continue');
         },

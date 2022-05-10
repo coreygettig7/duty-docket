@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 const Dependent  = require('./Dependent');
+const Duty = require('./Duty');
 
 const userSchema = new Schema({
     username: {
@@ -19,12 +20,7 @@ const userSchema = new Schema({
         required: true,
         minlength: 5
     },
-    duties: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Duty'
-        }
-    ],
+    duties: [Duty.schema],
     dependents: [Dependent.schema]
 },
     {

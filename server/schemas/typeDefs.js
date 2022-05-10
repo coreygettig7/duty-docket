@@ -34,18 +34,18 @@ const typeDefs = gql`
     type Query {
         me: User
         users: [User]
-        user(firstName: String!, lastName: String!, email: String!): User
+        user(username: String!, email: String!): User
         dependents(dependentName: String!): [Dependent]
         dependent(_id: ID!): Dependent
-        duties(dutyName: String): User
+        duties(dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
     }
 
     type Mutation {
         login(email: String!, password: String!): User
-        addUser(firstName: String!, lastName: String!, email: String!, password: String!): User
+        addUser(username: String!, email: String!, password: String!): User
         addDependent(dependentName: String!): Dependent
         addDuty(dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
-        updateDuty(_id: ID, dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
+        updateDuty(_id: ID!, dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
         removeDuty(_id: ID!): Duty
     }
 `;
