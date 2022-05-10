@@ -6,8 +6,7 @@ const typeDefs = gql`
 
     type User {
         _id: ID
-        firstName: String
-        lastName: String
+        username: String
         email: String
         dependents: [Dependent]
         duties: [Duty]
@@ -15,8 +14,7 @@ const typeDefs = gql`
 
     type Dependent {
         _id: ID
-        firstName: String
-        lastName: String
+        dependentName: String
         duties: [Duty]
     }
 
@@ -37,7 +35,7 @@ const typeDefs = gql`
         me: User
         users: [User]
         user(firstName: String!, lastName: String!, email: String!): User
-        dependents(firstName: String, lastName: String): [Dependent]
+        dependents(dependentName: String!): [Dependent]
         dependent(_id: ID!): Dependent
         duties(dutyName: String): User
     }
@@ -45,7 +43,7 @@ const typeDefs = gql`
     type Mutation {
         login(email: String!, password: String!): User
         addUser(firstName: String!, lastName: String!, email: String!, password: String!): User
-        addDependent(firstName: String!, lastName: String!): Dependent
+        addDependent(dependentName: String!): Dependent
         addDuty(dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
         updateDuty(_id: ID, dutyName: String!, dutyValue: Float!, dutyDescription: String!): Duty
         removeDuty(_id: ID!): Duty

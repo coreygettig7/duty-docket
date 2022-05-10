@@ -2,24 +2,13 @@ const { Schema, model } = require('mongoose');
 const dutySchema = require('./Duty');
 
 const dependentSchema = new Schema({
-    firstName: {
+    dependentName: {
         type: String,
         required: true,
-        trim: true
-    },
-    lastName: {
-        type: String,
-        required: false,
-        trim: true
-    },
-},
-    {
-        toJSON: {
-            getters: true
-        }
+        minlength: 2,
+        maxlength: 20
     }
-);
-
+});
 
 const Dependent = model('Dependent', dependentSchema);
 

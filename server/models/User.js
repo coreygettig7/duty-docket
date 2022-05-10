@@ -1,13 +1,9 @@
 const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
+const Dependent  = require('./Dependent');
 
 const userSchema = new Schema({
-    firstName: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    lastName: {
+    username: {
         type: String,
         required: true,
         trim: true
@@ -23,18 +19,13 @@ const userSchema = new Schema({
         required: true,
         minlength: 5
     },
-    dependents: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Dependent'
-        }
-    ],
     duties: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Duty'
         }
-    ]
+    ],
+    dependents: [Dependent.schema]
 },
     {
         toJSON: {

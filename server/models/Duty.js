@@ -15,6 +15,16 @@ const dutySchema = new Schema({
         type: String,
         required: false,
         maxLength: 50
+    },
+    dependent: {
+        type: String,
+        required: 'You need to delegate this duty to someone!',
+        minlength: 1,
+        maxlength: 20
+    },
+    dueDate: {
+        type: Date,
+        default: Date.now
     }
 });
 
