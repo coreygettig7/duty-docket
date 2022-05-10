@@ -5,18 +5,19 @@ import './App.css';
 import Welcome from './pages/Welcome';
 import Dashboard from './pages/Dashboard';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import {
+/*import {
   ApolloProvider,
   ApolloClient,
   InMemoryCache,
   createHttpLink
-} from '@apollo/client';
+} from '@apollo/client';*/
 
-const httpLink = createHttpLink({
+/*const httpLink = createHttpLink({
   uri: '/graphql'
 })
+*/
 
 function App() {
   return (
