@@ -21,7 +21,7 @@ class AuthService {
         return false;
       }
     } catch(err) {
-      return false
+      return false;
     }
   }
   // retrieve token from localStorage
@@ -33,6 +33,10 @@ class AuthService {
     localStorage.setItem('id_token', idToken);
     window.location.assign('/dashboard');
   }
+  // addUser(idToken) {
+  //   localStorage.setItem('id_token', idToken);
+  //   window.location.assign('/dashboard');
+  // }
   // clear token from localStorage and force logout
   logout() {
     localStorage.removeItem('id_token');

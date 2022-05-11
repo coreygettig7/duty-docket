@@ -1,61 +1,103 @@
-import React from 'react';
-import { UPDDATE_DUTY, REMOVE_DUTY } from '../../utils/actions';
-import { useStoreContext } from '../../utils/GlobalState';
-import { idbPromise } from '../../utils/helpers';
+import React, { useState } from 'react';
+import 'cirrus-ui';
+import { useMutation } from '@apollo/client';
+import { ADD_DUTY } from '../../utils/mutations';
+import { QUERY_ME_DUTIES, QUERY_ME } from '../../utils/queries';
 
-const DutyList = ({ duty }) => {
-    const [, dispatch] = useStoreContext();
 
-    const removeDuty = duty => {
-        dispatch({
-            type: REMOVE_DUTY,
-            _id: duty._id
-        });
-        idbPromise('duty', 'delete', { ...duty });
-    };
+const Delegation = () => {
+    const [dutyText, setText] = useState('');
+    const [dutyDistinction, setDistinction] = useState('');
+    const [dueDate, setDate] = useState('');
+    const [dutyDeposit, setDeposit] = useState('');
 
-    const onChange = (e) => {
-        const value = e.target.value;
-
-        if (value === '0') {
-            dispatch({
-                type: REMOVE_DUTY,
-                _id: duty._id
+    const [addDuty, {error}] = useMutation(ADD_DUTY, {
+        update(cache, { data: { addDuty }}) {
+            try {
+                const { me } = cache.readQuery({ query: QUERY_ME });
+                cache.writeQuery({
+                    query: QUERY_ME,
+                    data: { me: { ...me, duties: [...me.duties, addDuty]}}
+                });
+            }
+            catch (e) {
+                console.error(e);
+            }
+            const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
+            cache.writeQuery({
+                query: QUERY_ME_DUTIES,
+                data: { duties: [addDuty, ...duties] }
             });
-            idbPromise('duty', 'delete', { ...duty });
         }
-        else {
-            dispatch({
-                type: UPDDATE_DUTY,
-                _id: duty._id,
+    });
+    const handleDateChange = event => {
+        setDate(event.target.value);
+        
+    };
+    const handleTextChange = event => {
+        setText(event.target.value)
+        
+    }
+    const handleDistinctionChange = event => {
+        setDistinction(event.target.value);
+    }
+    const handleDepositChange = event => {
+        setDeposit(event.target.value);
+    }
+    const handleFormSubmit = async event => {
+        event.preventDefault();
+        try {
+            await addDuty({
+                variables: { dutyText, dutyDistinction, dueDate, dutyDeposit }
             });
-            idbPromise('duty', 'put' , { ...duty });
+            setText('');
+            setDistinction('');
+            setDate('');
+            setDeposit('');
+        }
+        catch (e) {
+            console.error(e);
         }
     };
-
     return (
-        <div>
-            <input 
-                placeholder='Duty Name'
-                value={duty.dutyName}
-                type='dutyName'
-                onChange={onChange}
-            />
-            <input 
-                placeholder='Allowance'
-                value={duty.dutyValue}
-                type='dutyValue'
-                onChange={onChange}
+        <div className="card p-3">
+            <h3 className="text-centered">Add a new duty</h3>
+            <form onSubmit={handleFormSubmit} />
+            <input
+                placeholder='What is the new duty...'
+                value={dutyText}
+                onChange={handleTextChange}
+                name="dutyText"
+                id="dutyText"
+                className="mb-2"
             />
             <input
-                placeholder='Description'
-                value={duty.dutyDescription}
-                type='dutyDescription'
-                onChange={onChange}
+                placeholder='What is the status of the duty'
+                value={dutyDistinction}
+                onChange={handleDistinctionChange}
+                className="mb-2"
+                id="dutyDistinction"
+                name="duytDistinction"
             />
-            <span onClick={() => removeDuty(duty)}></span>
+            <input
+                placeholder='When is the due date'
+                value={dueDate}
+                onChange={handleDateChange}
+                className="mb-2"
+                name="dueDate"
+                id="dueDate"
+            />
+            <input
+                placeholder='Allowance Amount'
+                value={dutyDeposit}
+                onChange={handleDepositChange}
+                className="mb-2"
+                name="dutyDeposit"
+                id="dutyDeposit"
+            />
+            <button type="submit">Submit</button>
+            {error && <div>Please complete the form</div>}
         </div>
     )
-}
-
-export default DutyList;
+};
+export default Delegation;
