@@ -1,75 +1,45 @@
-import { gql } from ('apollo-server-express');
+import { gql } from '@apollo/client';
 
+// query to login
 export const LOGIN_USER = gql`
-    mutation login($email: String!, $password: String!) {
-        login(email: $email, password: $password) {
-            token
-            user {
-                _id
-                firstName
-                lastName
-            }
-        }
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        _id
+        username
+      }
     }
+  }
 `;
 
+// query to create an account
 export const ADD_USER = gql`
-    mutation addUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-        addUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
-            tokem
-            user {
-                _id
-                firstName
-                lastName
-            }
-        }
+  mutation addUser($username: String!, $password: String!, $email: String!) {
+    addUser(username: $username, password: $password, email: $email) {
+      user {
+        username
+        email
+      }
+    
     }
+  }
 `;
 
-export const ADD_DEPENDENT = gql`
-    mutation addDependent($firstName: String!, $lastName: String) {
-        addDependent(firstName: $firstName, lastName: $lastName) {
-            _id
-            firstName
-            lastName
-            dutyCount
-            duties {
-                _id
-            }
-        }
+// query to add a dutyDoer 😂
+export const ADD_DOER = gql `
+  mutation addDoer($dutyId: ID!, $name: String!) {
+    addDoer(dutyId: $dutyId, name: $name) {
+      _id
+      dutyText
+      createdAt
+      dueDate
+      dutyDeposit
+      dutyDistinction
+      dutyDoer {
+        _id
+        name
+      }
     }
-`;
-
-export const ADD_DUTY = gql`
-    mutation addDuty($dutyName: String!, $dutyValue: FLoat!, $dutyDescription: String!) {
-        addDuty(dutyName: $dutyName, dutyValue: $dutyValue, dutyDescription: $dutyDescription) {
-            _id
-            dutyName
-            dutyValue
-            dutyDescription
-            user {
-                _id
-            }
-        }
-    }
-`;
-
-export const UPDATE_DUTY = qgl`
-    mutation updateDuty{
-        $id: ID
-        dutyName: $dutyName
-        dutyValue: $dutyValue
-        dutyDescription: $dutyDescription
-        user {
-            _id
-        }
-    }
-`;
-
-export const REMOVE_DUTY = qgl`
-    mutation removeDuty($id: ID! {
-        removeDuty(_id: $_id) {
-            _id
-        }
-    }
+  }
 `;

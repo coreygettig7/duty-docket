@@ -37,3 +37,8 @@ main {
 .icon-container {
   width: 40%;
 }
+
+.set-width {
+  width: 1280px;
+  max-width: 1200px;
+}
