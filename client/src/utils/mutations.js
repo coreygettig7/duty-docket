@@ -43,3 +43,17 @@ export const ADD_DOER = gql `
     }
   }
 `;
+
+// query to add a duty
+export const ADD_DUTY = gql`
+  mutation addDuty($dutyText: String!, $dutyDistinction: String!, $dueDate: String!, $dutyDeposit: String!) {
+    addDuty(dutyText: $dutyText, dutyDistinction: $dutyDistinction, dueDate: $dueDate, dutyDeposit: $dutyDeposit) {
+      _id
+      dutyText
+      dutyDistinction
+      dueDate
+      dutyDeposit
+      createdAt
+    }
+  }
+`;

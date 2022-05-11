@@ -3,6 +3,7 @@ import 'cirrus-ui';
 import Navigation from '../Nav';
 import DailyDuties from '../DailyDuties';
 import Docket from '../Docket';
+import Delegation from '../Delegation';
 import Auth from '../../utils/auth';
 // import Delegation from '../../pages/Delegation';
 
@@ -16,7 +17,7 @@ function Header() {
         case 'Duty Docket':
           return <Docket />;
         case 'Duty Delegation':
-          return //<Delegation />
+          return <Delegation />
         default:
             return 'Daily Duties' //<DailyDuties />;
       }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_DUTY } from '../../utils/mutations';
-import { QUERY_DUTIES, QUERY_ME } from '../../utils/queries';
+import { QUERY_ME_DUTIES, QUERY_ME } from '../../utils/queries';
 
 const DutyForm = () => {
     const [dutyText, setText] = useState('');
@@ -12,10 +12,10 @@ const DutyForm = () => {
     const [addDuty, {error}] = useMutation(ADD_DUTY, {
         update(cache, { data: { addDuty }}) {
             try {
-                const { duties } = cache.readQuery({ query: QUERY_DUTIES });
+                const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
 
                 cache.writeQuery({
-                    query: QUERY_DUTIES,
+                    query: QUERY_ME_DUTIES,
                     data: { duties: [addDuty, ...duties ] }
                 });
             }
@@ -61,21 +61,29 @@ const DutyForm = () => {
         <div>
             <form onSubmit={handleFormSubmit} />
             <textarea
+                type='text'
+                className='form-control'
                 placeholder='What is the new duty...'
                 value={dutyText}
                 onChange={handleChange}
             />
             <textarea
+                type='text'
+                className='form-control'
                 placeholder='Explain the duty here'
                 value={dutyDistinction}
                 onChange={handleChange}
             />
             <textarea
+                type='text'
+                className='form-control'
                 placeholder='When is the due date'
                 value={dueDate}
                 onChange={handleChange}
             />
             <textarea
+                type='text'
+                className='form-control'
                 placeholder='Allowance Amount'
                 value={dutyDeposit}
                 onChange={handleChange}
