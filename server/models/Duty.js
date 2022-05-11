@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
-const dependentSchema = require('./Dependent');
+const doerSchema = require('./Doer');
+const formatDate = require('../utils/formatDate');
+
 const dutySchema = new Schema(
   {
     dutyText: {
@@ -8,17 +10,27 @@ const dutySchema = new Schema(
       minlength: 3,
       maxlength: 280
     },
-    dutyValue: {
-      type: Number,
-    },
     username: {
       type: String,
       required: true
     },
-    dependent: [dependentSchema],
+    dutyDistinction: {
+      type: String,
+      required: true
+    },
+    dutyDeposit: {
+      type: String
+    },
+    dutyDoer: [doerSchema],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => formatDate(timestamp)
+    },
     dueDate: {
       type: Date,
-      default: Date.now
+      default: Date.now,
+      get: timestamp => formatDate(timestamp)
     }
   },
   {

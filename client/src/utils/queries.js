@@ -1,56 +1,38 @@
 import { gql } from '@apollo/client';
 
-export const QUERY_DUTIES = gql`
-    query duties($username: String) {
-        duties(username: $username) {
-            _id
-            dutyText
-            username
-            dueDate
-            dependent {
-                _id
-                dependentName
-            }
-        }
+
+export const QUERY_DUTIES  = gql`
+query queryAllDuties ($username: String) {
+  duties (username: $username){
+    _id
+    username
+    dutyText
+    dutyDeposit
+    createdAt
+    dueDate
+    dutyDistinction
+    dutyDoer{
+      _id
+      name
     }
+  }
+}
 `;
 
-
-/*export const QUERY_USER = gql`
-    query user(firstName: $firstName, lastName: $lastName) {
+export const QUERY_DUTY = gql`
+  query duty($id: ID!) {
+    duty(_id: $id) {
+      _id
+      username
+      dutyText
+      dutyDeposit
+      createdAt
+      dueDate
+      dutyDistinction
+      dutyDoer {
         _id
-        firstName
-        lastName
-        email
-        dependents {
-            _id
-            firstName
-            lastName
-        }
-        duties {
-            dutyName
-            dutyValue
-            dutyDescription
-        }
+        name
+      }
     }
-`;
-
-export const QUERY_ME = gql`
-    {
-        me {
-            _id
-            firstName
-            lastName
-            email
-        }
-    }
-`;
-
-export const QUERY_DUTIES = gql`
-   {
-       dutyName
-       dutyValue
-       dutyText
-   }
-`;
-*/
+  }
+`
