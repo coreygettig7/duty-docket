@@ -50,7 +50,7 @@ const Delegation = () => {
         }
     };
     return (
-        <div>
+        <div className="card p-3">
             <form onSubmit={handleFormSubmit} />
             <textarea
                 placeholder='What is the new duty...'
