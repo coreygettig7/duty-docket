@@ -2,8 +2,6 @@ import React from 'react';
 import Header from '../components/Header';
 import 'cirrus-ui';
 
-
-
 const Dashboard = () => {
   return (
     <div className="wrapper">

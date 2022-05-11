@@ -2,7 +2,7 @@ import './App.css';
 import {Helmet} from 'react-helmet';
 import Welcome from './pages/Welcome';
 import Dashboard from './pages/Dashboard';
-import Delegation from './pages/Delegation';
+//import Delegation from './pages/Delegation';
 import Signup from './pages/Signup';
 import NoMatch from './pages/NoMatch';
 
@@ -35,7 +35,7 @@ function App() {
               <Route path="/" element={<Welcome />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/delgation" element={<Delegation />} />
+              {/*<Route path="/delgation" element={<Delegation />} />*/}
               <Route path="*" eelement={<NoMatch />} />
             </Routes>
           </main>

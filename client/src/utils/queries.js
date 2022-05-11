@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 
+
 export const QUERY_DUTIES  = gql`
 query queryAllDuties ($username: String) {
   duties (username: $username){
@@ -19,19 +20,20 @@ query queryAllDuties ($username: String) {
 }
 `;
 
-export const QUERY_DUTY = gql`
-  query duty($id: ID!) {
-    duty(_id: $id) {
-      _id
-      username
-      dutyText
-      dutyDeposit
-      createdAt
-      dueDate
-      dutyDistinction
-      dutyDoer {
+export const QUERY_ME_DUTIES = gql`
+  {
+    me {
+      duties {
         _id
-        name
+        dutyText
+        createdAt
+        dueDate
+        dutyDistinction
+        dutyDeposit
+        dutyDoer {
+          _id
+          name
+        }
       }
     }
   }

@@ -1,18 +1,16 @@
 import React from 'react';
 import 'cirrus-ui';
 import { useQuery } from '@apollo/client';
-import { QUERY_DUTIES, QUERY_DUTY } from '../../utils/queries';
+import { QUERY_DUTIES, QUERY_ME_DUTIES } from '../../utils/queries';
+import Auth from '../../utils/auth';
 import DutiesList from '../DutiesList';
 
 function DailyDuties() {
-  const {loading, data } = useQuery(QUERY_DUTIES);
-  const duties = data?.duties || [];
-  //console.log(duties);
- // console.log(dutyDoer)
-
+  const { loading, data: userData } = useQuery(QUERY_ME_DUTIES);
+  const loggedIn = Auth.loggedIn();
 
   return(
-  <section id="daily-duties-wrapper">
+  <section id="daily-duties-wrapper" className={`${loggedIn && userData}`}>
     <div className="card bg-white p-1">
       <h3>Daily Duties</h3>
       <div className="daily-inner-content">
@@ -28,7 +26,7 @@ function DailyDuties() {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <DutiesList duties={duties} />
+            <DutiesList duties={userData.me.duties} />
           )}
         </table>
       </div>
