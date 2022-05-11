@@ -1,34 +1,32 @@
 const { Schema, model } = require('mongoose');
-
-const dutySchema = new Schema({
-    dutyName: {
-        type: String,
-        required: true,
-        trim: true
+const dependentSchema = require('./Dependent');
+const dutySchema = new Schema(
+  {
+    dutyText: {
+      type: String,
+      required: 'You need to enter a duty!',
+      minlength: 3,
+      maxlength: 280
     },
     dutyValue: {
-        type: Number,
-        required: true,
-        minNum: 1.00
+      type: Number,
     },
-    dutyDescription: {
-        type: String,
-        required: false,
-        maxLength: 50
-    },
-    dependent: {
+    username: {
       type: String,
-      required: 'You need to delegate this duty to someone!',
-      minlength: 1,
-      maxlenth: 20
+      required: true
     },
+    dependent: [dependentSchema],
     dueDate: {
       type: Date,
       default: Date.now
     }
-
-});
+  },
+  {
+    toJSON: {
+      getters: true
+    }
+  }
+);
 
 const Duty = model('Duty', dutySchema);
-
 module.exports = Duty;

@@ -7,21 +7,21 @@ import Dashboard from './pages/Dashboard';
 
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-/*import {
-  ApolloProvider,
-  ApolloClient,
-  InMemoryCache,
-  createHttpLink
-} from '@apollo/client';*/
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 
-/*const httpLink = createHttpLink({
-  uri: '/graphql'
+const httpLink = createHttpLink({
+  uri: 'http://localhost:3000/graphql'
 })
-*/
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+})
 
 function App() {
   return (
-    <div className='u-flex-column u-justify-center'>
+    <ApolloProvider client={client}>
+      <div className='u-flex-column u-justify-center'>
       <Helmet>
         <style>{'body { background-color: #43A8DE}'}</style>
       </Helmet>
@@ -36,6 +36,7 @@ function App() {
         </div>
       </main>
     </div>
+    </ApolloProvider>
   
   );
 }

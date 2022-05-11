@@ -1,6 +1,22 @@
-import { gql } from ('apollo-server-express');
+import { gql } from '@apollo/client';
 
-export const QUERY_USER = gql`
+export const QUERY_DUTIES = gql`
+    query duties($username: String) {
+        duties(username: $username) {
+            _id
+            dutyText
+            username
+            dueDate
+            dependent {
+                _id
+                dependentName
+            }
+        }
+    }
+`;
+
+
+/*export const QUERY_USER = gql`
     query user(firstName: $firstName, lastName: $lastName) {
         _id
         firstName
@@ -34,6 +50,7 @@ export const QUERY_DUTIES = gql`
    {
        dutyName
        dutyValue
-       dutyDescription
+       dutyText
    }
 `;
+*/

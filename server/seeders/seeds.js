@@ -1,7 +1,7 @@
 const faker = require('faker');
-
 const db = require('../config/connection');
 const { Duty, User } = require('../models');
+const Dependent = require('../models/Dependent');
 
 db.once('open', async () => {
   // clear existing info in db
@@ -21,19 +21,6 @@ db.once('open', async () => {
   // push that created information into the user db
   const fakeUsers = await User.collection.insertMany(userData);
 
-
-  // create dependents
-  const dependentData = [];
-  for ( let i = 0; i < 3; i += 1) {
-    const {dependentName} = faker.name.firstName();
-    // find a random user from the fakeUsers array and get that userId
-    const randomUserIndex = Math.floor(Math.random() * fakeUsers.ops.length);
-    const { username } = fakeUsers.ops[randomUserIndex];
-
-    // update user dependent array
-    await User.updateOne({ username }, { $addToSet: { dependents: dependentName } });
-  }
-
   // create duties
   let fakeDuties = [];
   for (let i = 0; i< 10; i += 1) {
@@ -42,31 +29,35 @@ db.once('open', async () => {
     const randomUserIndex = Math.floor(Math.random() * fakeUsers.ops.length);
     // get & set the username of that user
     const { username, _id: userId } = fakeUsers.ops[randomUserIndex];
-    const {dependent} = faker.name.firstName();
 
     // create the duty, baby
-    const singleDuty = await Duty.create({ dutyText, username, dependent });
-    
-    // create a random name for the dependent
-  
-    // const randomDutyIndex = Math.floor(Math.random() * fakeDuties.length);
-    // const { _id: dutyId } = fakeDuties[randomDutyIndex];
-
-    // // await Duty.updateOne(
-    // //   { _id: dutyId },
-    // //   { $push: { dependent: dependent }}
-    // // )
-
-    // // update the user model
-    // const updatedUser = await User.updateOne(
-    //   { _id: userId },
-    //   {$push: { duties: singleDuty._id } },
-    //   { $push: { dependents: dependent}}
-    // );
+    const singleDuty = await Duty.create({ dutyText, username });
+    // update the user
+    const updatedUser = await User.updateOne(
+      { _id: userId },
+      { $push: { duties: singleDuty._id } }
+    )
     fakeDuties.push(singleDuty);
-
   }
 
+
+
+  // create dependents
+  for ( let i = 0; i < 6; i += 1) {
+    const dependentName = faker.name.firstName();
+    const randomUserIndex = Math.floor(Math.random() * fakeUsers.ops.length);
+    const { username } = fakeUsers.ops[randomUserIndex];
+
+    const randomDutyIndex = Math.floor(Math.random() * fakeDuties.length);
+    const { _id: dutyId } = fakeDuties[randomDutyIndex];
+    //console.log({_id: dutyId })
+
+    await Duty.updateOne(
+      { _id: dutyId },
+      { $push: { dependent: { dependentName, username } } },
+      { runValidattors: true }
+    )
+  }
 
   console.log('all done seeding!');
   process.exit(0);
