@@ -53,10 +53,6 @@ mutation addDuty($dutyText: String!, $dutyDistinction: String!, $dueDate: String
     dueDate
     dutyDistinction
     dutyDeposit
-    dutyDoer {
-      _id
-      name
-    }
   }
 }
 `;

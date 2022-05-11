@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import 'cirrus-ui';
 import { useMutation } from '@apollo/client';
 import { ADD_DUTY } from '../../utils/mutations';
 import { QUERY_ME_DUTIES } from '../../utils/queries';
@@ -26,14 +27,22 @@ const Delegation = () => {
             });
         }
     });
-    const handleChange = event => {
+    const handleDateChange = event => {
         if (event.target.value.length <= 280) {
-            setText(event.target.value);
-            setDistinction(event.target.value);
-            setDate(event.target.value);
-            setDistinction(event.target.value);
+        setDate(event.target.value);
         }
     };
+    const handleTextChange = event => {
+        if (event.target.value.length <= 280) {
+            setText(event.target.value)
+        }
+    }
+    const handleDistinctionChange = event => {
+        setDistinction(event.target.value);
+    }
+    const handleDepositChange = event => {
+        setDeposit(event.target.value);
+    }
     const handleFormSubmit = async event => {
         event.preventDefault();
         try {
@@ -51,28 +60,36 @@ const Delegation = () => {
     };
     return (
         <div className="card p-3">
+            <h3 className="text-centered">Add a new duty</h3>
             <form onSubmit={handleFormSubmit} />
-            <textarea
+            <input
                 placeholder='What is the new duty...'
                 value={dutyText}
-                onChange={handleChange}
+                onChange={handleTextChange}
+                name="dutyText"
+                id="dutyText"
+                className="mb-2"
             />
-            <textarea
-                placeholder='Explain the duty here'
+            <input
+                placeholder='What is the status of the duty'
                 value={dutyDistinction}
-                onChange={handleChange}
+                onChange={handleDistinctionChange}
+                className="mb-2"
             />
-            <textarea
+            <input
                 placeholder='When is the due date'
                 value={dueDate}
-                onChange={handleChange}
+                onChange={handleDateChange}
+                className="mb-2"
             />
-            <textarea
+            <input
                 placeholder='Allowance Amount'
                 value={dutyDeposit}
-                onChange={handleChange}
+                onChange={handleDepositChange}
+                className="mb-2"
             />
             <button>Submit</button>
+            {error && <div>Please complete the form</div>}
         </div>
     )
 };
