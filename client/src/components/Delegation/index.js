@@ -29,7 +29,7 @@ const DutyList = ({ duty }) => {
                 type: UPDDATE_DUTY,
                 _id: duty._id,
             });
-            idbPromise('duty', 'put', { ...duty });
+            idbPromise('duty', 'put' , { ...duty });
         }
     };
 
