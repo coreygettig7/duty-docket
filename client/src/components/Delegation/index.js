@@ -2,40 +2,41 @@ import React, { useState } from 'react';
 import 'cirrus-ui';
 import { useMutation } from '@apollo/client';
 import { ADD_DUTY } from '../../utils/mutations';
-import { QUERY_ME_DUTIES } from '../../utils/queries';
+import { QUERY_ME_DUTIES, QUERY_ME } from '../../utils/queries';
+
+
 const Delegation = () => {
     const [dutyText, setText] = useState('');
     const [dutyDistinction, setDistinction] = useState('');
     const [dueDate, setDate] = useState('');
     const [dutyDeposit, setDeposit] = useState('');
+
     const [addDuty, {error}] = useMutation(ADD_DUTY, {
         update(cache, { data: { addDuty }}) {
             try {
-                const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
+                const { me } = cache.readQuery({ query: QUERY_ME });
                 cache.writeQuery({
-                    query: QUERY_ME_DUTIES,
-                    data: { duties: [addDuty, ...duties ] }
+                    query: QUERY_ME,
+                    data: { me: { ...me, duties: [...me.duties, addDuty]}}
                 });
             }
             catch (e) {
                 console.error(e);
             }
-            const { me } = cache.readQuery({ query: QUERY_ME_DUTIES });
+            const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
             cache.writeQuery({
                 query: QUERY_ME_DUTIES,
-                data: { me: { ...me, duties: [...me.duties, addDuty] } }
+                data: { duties: [addDuty, ...duties] }
             });
         }
     });
     const handleDateChange = event => {
-        if (event.target.value.length <= 280) {
         setDate(event.target.value);
-        }
+        
     };
     const handleTextChange = event => {
-        if (event.target.value.length <= 280) {
-            setText(event.target.value)
-        }
+        setText(event.target.value)
+        
     }
     const handleDistinctionChange = event => {
         setDistinction(event.target.value);
@@ -75,20 +76,26 @@ const Delegation = () => {
                 value={dutyDistinction}
                 onChange={handleDistinctionChange}
                 className="mb-2"
+                id="dutyDistinction"
+                name="duytDistinction"
             />
             <input
                 placeholder='When is the due date'
                 value={dueDate}
                 onChange={handleDateChange}
                 className="mb-2"
+                name="dueDate"
+                id="dueDate"
             />
             <input
                 placeholder='Allowance Amount'
                 value={dutyDeposit}
                 onChange={handleDepositChange}
                 className="mb-2"
+                name="dutyDeposit"
+                id="dutyDeposit"
             />
-            <button>Submit</button>
+            <button type="submit">Submit</button>
             {error && <div>Please complete the form</div>}
         </div>
     )

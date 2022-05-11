@@ -40,3 +40,25 @@ export const QUERY_DUTY = gql`
     }
   }
 `
+
+export const QUERY_ME = gql`
+  {
+    me {
+      _id
+      username
+      email
+      duties {
+        _id
+        dutyText
+        createdAt
+        dueDate
+        dutyDistinction
+        dutyDeposit
+        dutyDoer {
+          _id
+          name
+        }
+      }
+    }
+  }
+`;
