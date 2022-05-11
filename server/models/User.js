@@ -1,4 +1,3 @@
-const dependentSchema = require('./Dependent');
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 
@@ -13,7 +12,7 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            match: [/.+@.+\..+/, "Must match an email address!"]
+            trim: true
         },
         password: {
             type: String,
@@ -25,19 +24,15 @@ const userSchema = new Schema(
                 type: Schema.Types.ObjectId,
                 ref: 'Duty'
             }
-        ],
-        dependents: [dependentSchema]
-    },
-    { 
-        toJSON: {
-            virtuals: true
-        }
+        ]
+
     }
-    );
+)
+
 
 // Set up pre-save middleware to create password
-userSchema.pre('save', async function(next) {
-    if(this.isNew || this.isModified('password')) {
+userSchema.pre("save", async function(next) {
+    if(this.isNew || this.isModified("password")) {
         const saltRounds = 10;
         this.password = await bcrypt.hash(this.password, saltRounds);
     }
@@ -47,11 +42,7 @@ userSchema.pre('save', async function(next) {
 // Compare pw w hashed pw
 userSchema.methods.isCorrectPassword = async function(password) {
     return bcrypt.compare(password, this.password);
-};
-// get number of dependents on user account
-userSchema.virtual('dependentCount').get(function() {
-    return this.dependents.length;
-})
+}
 const User = model("User", userSchema);
 
 module.exports = User;
