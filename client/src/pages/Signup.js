@@ -6,8 +6,11 @@ import Auth from '../utils/auth';
 
 
 const Signup = () =>  {
-  const [formState, setFormState] = useState({ username: '', email: '', password: '' });
-  // create a closure hook that creates the mutation and returns it
+  const [formState, setFormState] = useState({
+    username: '',
+    email: '',
+    password: '',
+  });
   const [addUser, { error }] = useMutation(ADD_USER);
 
   // update state based on form input changes
@@ -23,18 +26,18 @@ const Signup = () =>  {
   // submit form
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    // try/catch to handle errors
+
     try {
-      // execute addUser mutation and pass in variable data from form 
       const { data } = await addUser({
-        variables: { ...formState}
+        variables: { ...formState },
       });
-      //console.log(data);
+
       Auth.login(data.addUser.token);
     } catch (e) {
       console.error(e);
     }
   };
+
 
 
   return (

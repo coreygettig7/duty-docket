@@ -8,8 +8,11 @@ const DoersList = ({ dutyDoer }) => {
       </div>
 
       <div id="doer-list">
-        <ul>
-          <li></li>
+        <ul className="no-bullets">
+          {dutyDoer && 
+            dutyDoer.map(doer => (
+              <li>{doer.name}</li>
+            ))}
         </ul>
       </div>
     </div>
