@@ -23,6 +23,8 @@ query queryAllDuties ($username: String) {
 export const QUERY_ME_DUTIES = gql`
   {
     me {
+      _id
+      username
       duties {
         _id
         dutyText
