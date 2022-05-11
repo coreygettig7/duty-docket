@@ -1,7 +1,7 @@
 import React from 'react';
 import 'cirrus-ui';
 import { useQuery } from '@apollo/client';
-import { QUERY_DUTIES, QUERY_ME_DUTIES } from '../../utils/queries';
+import { QUERY_ME_DUTIES } from '../../utils/queries';
 import Auth from '../../utils/auth';
 import DutiesList from '../DutiesList';
 
