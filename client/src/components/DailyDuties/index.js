@@ -1,7 +1,7 @@
 import React from 'react';
 import 'cirrus-ui';
 import { useQuery } from '@apollo/client';
-import { QUERY_DUTIES, QUERY_ME_DUTIES } from '../../utils/queries';
+import { QUERY_ME_DUTIES } from '../../utils/queries';
 import Auth from '../../utils/auth';
 import DutiesList from '../DutiesList';
 
@@ -11,7 +11,7 @@ function DailyDuties() {
 
   return(
   <section id="daily-duties-wrapper" className={`${loggedIn && userData}`}>
-    <div className="card bg-white p-1">
+    <div className="card bg-white p-3">
       <h3>Daily Duties</h3>
       <div className="daily-inner-content">
         <table className="table">
