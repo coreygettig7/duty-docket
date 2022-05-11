@@ -8,22 +8,20 @@ const typeDefs = gql`
         _id: ID
         username: String
         email: String
-        dependents: [Dependent]
         duties: [Duty]
+    }
+    type Duty {
+        _id: ID
+        dutyValue: Float
+        dutyText: String
+        dueDate: String
+
     }
 
     type Dependent {
         _id: ID
         dependentName: String
         duties: [Duty]
-    }
-
-    type Duty {
-        _id: ID
-        dutyName: String
-        dutyValue: Float
-        dutyDescription: String
-
     }
 
     type Auth {
@@ -35,9 +33,8 @@ const typeDefs = gql`
         me: User
         users: [User]
         user(username: String!, email: String!): User
-        dependents(dependentName: String): [Dependent]
-        dependent(_id: ID!): Dependent
-        duties(dutyName: String): User
+        duties(username: String!): [Duty]
+        duty(_id: ID!): Duty
     }
 
     type Mutation {
