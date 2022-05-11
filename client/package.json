@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^13.5.0",
     "cirrus-ui": "^0.7.0-patch.1",
     "graphql": "^16.5.0",
+    "jwt-decode": "^3.1.2",
     "react": "^18.1.0",
     "react-big-calendar": "^0.40.1",
     "react-dom": "^18.1.0",

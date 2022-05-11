@@ -25,3 +25,21 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+// query to add a dutyDoer 😂
+export const ADD_DOER = gql `
+  mutation addDoer($dutyId: ID!, $name: String!) {
+    addDoer(dutyId: $dutyId, name: $name) {
+      _id
+      dutyText
+      createdAt
+      dueDate
+      dutyDeposit
+      dutyDistinction
+      dutyDoer {
+        _id
+        name
+      }
+    }
+  }
+`;
