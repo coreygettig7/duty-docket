@@ -1,6 +1,6 @@
-
 import React from 'react';
 import 'cirrus-ui';
+import { Link } from 'react-router-dom';
 
 const DutiesList = ({ duties }) => {
   if (!duties.length) {
@@ -17,7 +17,8 @@ const DutiesList = ({ duties }) => {
             <td>{duty.dueDate}</td>
             <td>{duty.dutyDistinction}</td>
             <td>${duty.dutyDeposit}</td>
-            <td><button>View Details</button></td>
+
+            <td><Link to={`/duty/${duty._id}`}>View Details</Link></td>
           </tr>
         ))
       }
