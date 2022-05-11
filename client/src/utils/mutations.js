@@ -1,4 +1,4 @@
-import { gql } from ('apollo-server-express');
+import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
     mutation login($email: String!, $password: String!) {
@@ -6,70 +6,43 @@ export const LOGIN_USER = gql`
             token
             user {
                 _id
-                firstName
-                lastName
+                username
+                email
+                password
             }
         }
     }
 `;
 
 export const ADD_USER = gql`
-    mutation addUser($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-        addUser(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
-            tokem
-            user {
-                _id
-                firstName
-                lastName
-            }
-        }
-    }
-`;
-
-export const ADD_DEPENDENT = gql`
-    mutation addDependent($firstName: String!, $lastName: String) {
-        addDependent(firstName: $firstName, lastName: $lastName) {
+    mutation addUser($username: String!, $email: String!, $password: String!) {
+        addUser(username: $username, email: $email, password: $password) {
             _id
-            firstName
-            lastName
-            dutyCount
-            duties {
-                _id
-            }
+            username
+            email
+            password
         }
     }
 `;
 
 export const ADD_DUTY = gql`
-    mutation addDuty($dutyName: String!, $dutyValue: FLoat!, $dutyDescription: String!) {
-        addDuty(dutyName: $dutyName, dutyValue: $dutyValue, dutyDescription: $dutyDescription) {
+    mutation addDuty($dutyText: String!, $dutyDistinction: String!, $dueDate: String!, $dutyDeposit: String!) {
+        addDuty(dutyText: $dutyText, dutyDistinction: $dutyDistinction, dueDate: $dueDate, dutyDeposit: $dutyDeposit) {
             _id
-            dutyName
-            dutyValue
-            dutyDescription
-            user {
-                _id
-            }
+            dutyText
+            dutyDistinction
+            dueDate
+            dutyDeposit
+            createdAt
         }
     }
 `;
 
-export const UPDATE_DUTY = qgl`
-    mutation updateDuty{
-        $id: ID
-        dutyName: $dutyName
-        dutyValue: $dutyValue
-        dutyDescription: $dutyDescription
-        user {
+export const ADD_DOER = gql`
+    mutation addDoer($name: String!) {
+        addDoer(name: $name) {
             _id
-        }
-    }
-`;
-
-export const REMOVE_DUTY = qgl`
-    mutation removeDuty($id: ID! {
-        removeDuty(_id: $_id) {
-            _id
+            name
         }
     }
 `;

@@ -1,103 +1,64 @@
 const faker = require('faker');
-
 const db = require('../config/connection');
-const { User, Duty } = require('../models');
+const { Duty, User } = require('../models');
 
 db.once('open', async () => {
+  await Duty.deleteMany({});
+  await User.deleteMany({});
 
-    await Duty.deleteMany({});
-    const dutyData = [];
+  // create userData 
+  const userData = [];
+  for (let i = 0; i < 5; i+= 1) {
+    const username = faker.internet.userName();
+    const email = faker.internet.email(username);
+    const password = faker.internet.password();
 
-    for (let i = 0; i < 50; i += 1) {
-        const dutyName = faker.commerce.department();
-        const dutyValue = faker.commerce.price();
-        const dutyDescription = faker.commerce.product();
-
-        dutyData.push( { dutyName, dutyValue, dutyDescription });
-    }
-
-    let createdDuties = [];
-    createdDuties = await Duty.collection.insertMany(dutyData);
-        // [
-        //     {
-        //         dutyName: "Dishes",
-        //         dutyValue: 5.00,
-        //         dutyDescription: "Wash, Dry and put away Dishes"
-        //     },
-        //     {
-        //         dutyName: "Floors",
-        //         dutyValue: 2.00,
-        //         dutyDescription: "Vacuum all floors downstairs"
-        //     },
-        //     {
-        //         dutyName: "Make Bed",
-        //         dutyValue: 1.00,
-        //         dutyDescription: "Make bed every morning"
-        //     },
-        //     {
-        //         dutyName: "Trash",
-        //         dutyValue: 1.00,
-        //         dutyDescription: "Empty all trash cans on trash day"
-        //     },
-        //     {
-        //         dutyName: "Bathrooms",
-        //         dutyValue: 10.00,
-        //         dutyDescription: "Clean all sinks, showers, tubs, toilets and floors"
-        //     },
-        //     {
-        //         dutyName: "Dusting",
-        //         dutyValue: 3.00,
-        //         dutyDescription: "Dust all of downstairs"
-        //     }
-        // ]);
-        console.log('duties seeded')
-
-    await User.deleteMany({});
-    const userData = [];
-
-    for (let i = 0; i < 50; i += 1) {
-        const username = faker.internet.userName();
-        const email = faker.internet.email(username);
-        const password = faker.internet.password();
-
-        userData.push( { username, email, password });
-    }
-
-    let createdUsers = [];
-    createdUsers = await User.collection.insertMany(userData);
-
-    console.log('users seeded')
-
-      // create dependents
-  const dependentData = [];
-  for ( let i = 0; i < 3; i += 1) {
-    const {dependentName} = faker.name.firstName();
-    // find a random user from the fakeUsers array and get that userId
-    const randomUserIndex = Math.floor(Math.random() * dependentData.length);
-    const username  = dependentData[randomUserIndex];
-
-    // update user dependent array
-    await User.updateOne({ username }, { $addToSet: { dependents: dependentName } });
+    userData.push({ username, email, password });
   }
-  console.log('dependents seeded')
+  // push that created information into the user db
+  const userSeeds = await User.collection.insertMany(userData);
 
-    // for (let i = 0; 1 < 50; i += 1) {
-    //     const randomUserIndex = Math.floor(Math.random() * userData.length);
-    //     const { _id: userId } = userData[randomUserIndex];
+  // create Duties
+  const dutySeeds = [];
+  const distinctions = ['Not Started', 'In Progress', 'Completed'];
+  for (let i = 0; i < 20; i +=1 ) {
+    const dutyText = faker.lorem.words(Math.round(Math.random() * 20 ) + 1);
+    // get user
+    const userIndex = Math.floor(Math.random() * userSeeds.ops.length);
+    const { username, _id: userId } = userSeeds.ops[userIndex];
+    // create distinction
+    const distinctionIndex = Math.floor(Math.random() * distinctions.length);
+    const dutyDistinction  = distinctions[distinctionIndex];
+    // create deposit
+    const dutyDeposit = faker.finance.amount(1, 50);
+    // create due Date
+    const dueDate = faker.date.between('2022-05-10', '2022-06-30');
+    // create the duty
+    const newDuty = await Duty.create({ dutyText, username, dutyDistinction, dutyDeposit, dueDate })
+    // update the user who made this duty
+    const updatedUser = await User.updateOne(
+      { _id: userId },
+      { $push: { duties: newDuty._id } }
+    );
+    dutySeeds.push(newDuty);
+  }
 
-    //     let dependentId = userId;
+  // create doers
+  for (let i = 0; i < 12; i += 1) {
+    const name = faker.name.firstName();
 
-    //     while (dependentId === userId) {
-    //         const randomUserIndex = Math.floor(Math.random() * userData.length);
-    //         dependentId = userData[randomUserIndex]
-    //     }
-    //     await User.updateOne({ _id: userId }, { $addToSet: { dependents: dependentId } } );
-    // }
-    // console.log('dependents seeded')
+    const userIndex = Math.floor(Math.random() * userSeeds.ops.length);
+    const { username } = userSeeds.ops[userIndex];
 
+    const dutyIndex = Math.floor(Math.random() * dutySeeds.length);
+    const { _id: dutyId } = dutySeeds[dutyIndex];
 
-
-console.log('all done!');
-process.exit(0);
-});
-
+    await Duty.updateOne(
+      { _id: dutyId},
+      { $push: { dutyDoer: { name, username } } },
+      { runValidators: true }
+    )
+  }
+  console.log('seeding complete! ✅');
+  process.exit(0);
+})

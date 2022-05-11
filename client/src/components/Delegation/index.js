@@ -1,61 +1,88 @@
-import React from 'react';
-import { UPDDATE_DUTY, REMOVE_DUTY } from '../../utils/actions';
-import { useStoreContext } from '../../utils/GlobalState';
-import { idbPromise } from '../../utils/helpers';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { ADD_DUTY } from '../../utils/mutations';
+import { QUERY_DUTIES, QUERY_ME } from '../../utils/queries';
 
-const DutyList = ({ duty }) => {
-    const [, dispatch] = useStoreContext();
+const DutyForm = () => {
+    const [dutyText, setText] = useState('');
+    const [dutyDistinction, setDistinction] = useState('');
+    const [dueDate, setDate] = useState('');
+    const [dutyDeposit, setDeposit] = useState('');
 
-    const removeDuty = duty => {
-        dispatch({
-            type: REMOVE_DUTY,
-            _id: duty._id
-        });
-        idbPromise('duty', 'delete', { ...duty });
+    const [addDuty, {error}] = useMutation(ADD_DUTY, {
+        update(cache, { data: { addDuty }}) {
+            try {
+                const { duties } = cache.readQuery({ query: QUERY_DUTIES });
+
+                cache.writeQuery({
+                    query: QUERY_DUTIES,
+                    data: { duties: [addDuty, ...duties ] }
+                });
+            }
+            catch (e) {
+                console.error();
+            }
+            const { me } = cache.readQuery({ query: QUERY_ME });
+            cache.writeQuery({
+                query: QUERY_ME,
+                data: { me: { ...me, duties: [...me.duties, addDuty] } }
+            });
+        }
+    });
+
+    const handleChange = event => {
+        if (event.target.value.length <= 280) {
+            setText(event.target.value);
+            setDistinction(event.target.value);
+            setDate(event.target.value);
+            setDistinction(event.target.value);
+        }
     };
 
-    const onChange = (e) => {
-        const value = e.target.value;
+    const handleFormSubmit = async event => {
+        event.preventDefault();
 
-        if (value === '0') {
-            dispatch({
-                type: REMOVE_DUTY,
-                _id: duty._id
+        try {
+            await addDuty({
+                variables: { dutyText, dutyDistinction, dueDate, dutyDeposit }
             });
-            idbPromise('duty', 'delete', { ...duty });
+
+            setText('');
+            setDistinction('');
+            setDate('');
+            setDeposit('');
         }
-        else {
-            dispatch({
-                type: UPDDATE_DUTY,
-                _id: duty._id,
-            });
-            idbPromise('duty', 'put' { ...duty });
+        catch (e) {
+            console.error(e);
         }
     };
 
     return (
         <div>
-            <input 
-                placeholder='Duty Name'
-                value={duty.dutyName}
-                type='dutyName'
-                onChange={onChange}
+            <form onSubmit={handleFormSubmit} />
+            <textarea
+                placeholder='What is the new duty...'
+                value={dutyText}
+                onChange={handleChange}
             />
-            <input 
-                placeholder='Allowance'
-                value={duty.dutyValue}
-                type='dutyValue'
-                onChange={onChange}
+            <textarea
+                placeholder='Explain the duty here'
+                value={dutyDistinction}
+                onChange={handleChange}
             />
-            <input
-                placeholder='Description'
-                value={duty.dutyDescription}
-                type='dutyDescription'
-                onChange={onChange}
+            <textarea
+                placeholder='When is the due date'
+                value={dueDate}
+                onChange={handleChange}
             />
-            <span onClick={() => removeDuty(duty)}></span>
+            <textarea
+                placeholder='Allowance Amount'
+                value={dutyDeposit}
+                onChange={handleChange}
+            />
+            <button>Submit</button>
         </div>
     )
-}
+};
 
-export default DutyList;
+export default DutyForm;

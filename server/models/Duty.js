@@ -1,27 +1,44 @@
 const { Schema, model } = require('mongoose');
+const doerSchema = require('./Doer');
+const formatDate = require('../utils/formatDate');
 
-const dutySchema = new Schema({
-    dutyName: {
-        type: String,
-        required: true,
-        trim: true
+const dutySchema = new Schema(
+  {
+    dutyText: {
+      type: String,
+      required: 'You need to enter a duty!',
+      minlength: 3,
+      maxlength: 280
     },
-    dutyValue: {
-        type: Number,
-        required: true,
-        minNum: 1.00
+    username: {
+      type: String,
+      required: true
     },
-    dutyDescription: {
-        type: String,
-        required: false,
-        maxLength: 50
+    dutyDistinction: {
+      type: String,
+      required: true
+    },
+    dutyDeposit: {
+      type: String
+    },
+    dutyDoer: [doerSchema],
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: timestamp => formatDate(timestamp)
     },
     dueDate: {
-        type: Date,
-        default: Date.now
+      type: Date,
+      default: Date.now,
+      get: timestamp => formatDate(timestamp)
     }
-});
+  },
+  {
+    toJSON: {
+      getters: true
+    }
+  }
+);
 
 const Duty = model('Duty', dutySchema);
-
 module.exports = Duty;

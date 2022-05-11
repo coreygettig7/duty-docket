@@ -1,11 +1,18 @@
 import React from 'react';
 import Header from '../components/Header';
-import Nav from '../components/Nav';
+import 'cirrus-ui';
+
+
 
 const Dashboard = () => {
   return (
-    <div>
-      <Header />
+    <div className="wrapper">
+      <div id="left-nav" className="u-pull-left">
+        <Header />
+      </div>
+      <div id="right-component">
+    
+      </div>
     </div>
   )
 }

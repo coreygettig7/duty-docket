@@ -1,14 +1,14 @@
 import React from "react";
 
 function Navigation(props) {
-  const tabs = ['Daily Duties', "Duty Docket", "Duty Delegation", "Duty Deposit", "Duty Display"];
+  const tabs = ['Daily Duties', 'Duty Docket', 'Duty Delegation'];
   return (
-    <div className="tabs is-centered">
-      <ul className="nav nav-tabs">
+    <div className="tabs">
+      <ul className="nav nav-tabs menu-u-pull-left">
         {tabs.map((tab) => (
           <li
             className={
-              props.currentPage === tab ? "nav-item is-active" : "nav-item"
+              props.currentPage === tab ? "nav-item menu-item selected" : "nav-item menu-item"
             }
             key={tab}
           >
@@ -18,7 +18,7 @@ function Navigation(props) {
               // the current page is set through the handlePageChange props.
               onClick={() => props.handlePageChange(tab)}
               className={
-                props.currentPage === tab ? "nav-link active" : "nav-link"
+                props.currentPage === tab ? "nav-link" : "nav-link"
               }
             >
               {tab}
