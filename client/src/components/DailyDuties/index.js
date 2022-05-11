@@ -11,7 +11,7 @@ function DailyDuties() {
 
   return(
   <section id="daily-duties-wrapper" className={`${loggedIn && userData}`}>
-    <div className="card bg-white p-1">
+    <div className="card bg-white p-3">
       <h3>Daily Duties</h3>
       <div className="daily-inner-content">
         <table className="table">
