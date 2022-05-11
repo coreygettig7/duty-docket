@@ -3,13 +3,8 @@ import 'cirrus-ui';
 import Navigation from '../Nav';
 import DailyDuties from '../DailyDuties';
 import Docket from '../Docket';
+import Auth from '../../utils/auth';
 // import Delegation from '../../pages/Delegation';
-
-const logout = () => {
-  sessionStorage.removeItem('userToken');
-  sessionStorage.clear();
-  this.props.history.push('../../pages/Welcome.js');
-}
 
 function Header() {
   const [currentPage, handlePageChange] = useState('Daily Duties');
@@ -26,6 +21,10 @@ function Header() {
             return 'Daily Duties' //<DailyDuties />;
       }
   }
+  const logout = event => {
+    event.preventDefault();
+    Auth.logout();
+  }
   return (
     <div className='set-width'>
       {/* Pass the state value and the setter as props to NavTabs */}
@@ -38,7 +37,7 @@ function Header() {
         <div>{renderPage(currentPage)}</div>
       </main>
       <div>
-        <button type='button' /*onClick={this.logout}*/>Log Out</button>
+        <button type='button' onClick={logout}>Log Out</button>
       </div>
       
     </div>

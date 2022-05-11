@@ -1,15 +1,53 @@
-import React from 'react';
+import React , { useState } from 'react';
 import 'cirrus-ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
+
+import { useMutation } from '@apollo/client';
+import { LOGIN_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth';
+
 
 const envelopeIcon = <FontAwesomeIcon icon={faEnvelope} />
 const lockIcon = <FontAwesomeIcon icon={faLock} />
 
-function Login() {
+const Login = (props) => {
+  const [formState, setFormState] = useState({ email: '', password: ''});
+
+  const [login, { error }] = useMutation(LOGIN_USER);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormState({
+      ...formState,
+      [name]: value
+    })
+  }
+
+  // submit form handler
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const { data } = await login({
+        variables: { ...formState }
+      });
+      //console.log(data)
+      Auth.login(data.login.token)
+    } catch (e) {
+      console.error(e)
+    }
+
+    setFormState({
+      email: '',
+      password: ''
+    })
+  }
+
   return (
-    <section id="login-form" className='form-wrapper card u-flex u-justify-center'>
-      <form className='card_container form-card p-4'>
+    <section id="login-form" className='form-wrapper card u-flex u-justify-center u-flex-column'>
+      <form className='card_container form-card p-4' onSubmit={handleFormSubmit}>
         <h3 className='dark-text'>Sign In</h3>
         <div className='input-control pb-2'>
           <label>Email address</label>
@@ -17,6 +55,10 @@ function Login() {
             type='email'
             className='form-control input-contains-icon'
             placeholder='Enter email'
+            name='email'
+            id='email'
+            value={formState.email}
+            onChange={handleChange}
           />
             <span class="icon fa fa-wrapper">{envelopeIcon}</span>
         </div>
@@ -25,7 +67,11 @@ function Login() {
           <input  
             type='password'
             className='input-control input-contains-icon'
-            placeholder='password'
+            placeholder='*****'
+            name='password'
+            id='password'
+            value={formState.password}
+            onChange={handleChange}
           />
             <span class="icon fa fa-wrapper">{lockIcon}</span>
         </div>
@@ -37,6 +83,10 @@ function Login() {
           </button>
         </div>
       </form>
+      {error && <div><p className="error">Login failed</p></div>}
+      <div id="sign-up-link" className="m-3">
+        <span>Don't have an account? <Link to="/signup">Sign up!</Link></span>
+      </div>
     </section>
   )
 }
