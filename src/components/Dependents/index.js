@@ -7,20 +7,25 @@ function Dependents() {
     return (
         <div>
             <div>
+                <h1>My Dependents:</h1>
                 <ul>
-                    <li>Dependent 1</li>
-                    <li>Dependent 2</li>
-                    <li>Dependent 3</li>
-                    <li>Dependent 4</li>
-                    <li>Dependent 5</li>
-                    <li>Dependent 6</li>
+                    <li>Sharon</li>
+                    <li>Bob</li>
+                    <li>Frank</li>
+                    <li>Amanda</li>
+                    <li>Julie</li>
+                    <li>Billy</li>
                 </ul>
             </div>
             <div>
-
+                <div class="form-group">
+                    <input type="name" class="form-group-input" placeholder="Enter new dependent here:"/>
+                    <button class="form-group-btn">Add</button>
+                </div>
             </div>
         </div>
     )
 }
 
 export default Dependents;
+

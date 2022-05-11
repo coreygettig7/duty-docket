@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import 'cirrus-ui';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 
-const envelopeIcon = <FontAwesomeIcon icon={faEnvelope} />
-const lockIcon = <FontAwesomeIcon icon={faLock} />
 
 function Settings() {
     return (
@@ -14,7 +10,7 @@ function Settings() {
                     <p class="m-0">First Name:</p>
                 </div>
                 <div class="col-xs-9 level-item">
-                    <input type="firstname" value="John"/>
+                    <input type="firstName" placeholder="John"/>
                 </div>
             </div>
             <div class="row level">
@@ -22,7 +18,7 @@ function Settings() {
                     <p class="m-0">Last Name:</p>
                 </div>
                 <div class="col-xs-9 level-item">
-                    <input type="lastname" value="Doe"/>
+                    <input type="lastName" placeholder="Doe"/>
                 </div>
             </div>
             <div class="row level">
@@ -30,7 +26,7 @@ function Settings() {
                     <p class="m-0">Email:</p>
                 </div>
                 <div class="col-xs-9 level-item">
-                    <input type="email" value="john.doe@sample.com"/>
+                    <input type="email" placeholder="john.doe@sample.com"/>
                 </div>
             </div>
             <div class="row level">
@@ -38,7 +34,7 @@ function Settings() {
                     <p class="m-0">Password:</p>
                 </div>
                 <div class="col-xs-9 level-item">
-                    <input type="password" value="password123"/>
+                    <input type="password" placeholder="password123"/>
                 </div>
             </div>
         </section>
