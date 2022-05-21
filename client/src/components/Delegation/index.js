@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_DUTY } from '../../utils/mutations';
 import { QUERY_ME_DUTIES } from '../../utils/queries';
+
 const Delegation = () => {
-    const [dutyText, setText] = useState('');
-    const [dutyDistinction, setDistinction] = useState('');
-    const [dueDate, setDate] = useState('');
-    const [dutyDeposit, setDeposit] = useState('');
+    // const [dutyText, setText] = useState('');
+    // const [dutyDistinction, setDistinction] = useState('');
+    // const [dueDate, setDate] = useState('');
+    // const [dutyDeposit, setDeposit] = useState('');
+    const [formState, setFormState] = useState({ 
+        dutyText: '', 
+        dutyDistinction: '', 
+        dueDate: '', 
+        dutyDeposit: ''
+    });
+
     const [addDuty, {error}] = useMutation(ADD_DUTY, {
         update(cache, { data: { addDuty }}) {
             try {
@@ -27,23 +35,19 @@ const Delegation = () => {
         }
     });
     const handleChange = event => {
-        if (event.target.value.length <= 280) {
-            setText(event.target.value);
-            setDistinction(event.target.value);
-            setDate(event.target.value);
-            setDistinction(event.target.value);
-        }
+        const { name, value } = event.target;
+
+        setFormState({
+            ...formState,
+            [name]: value,
+        })
     };
     const handleFormSubmit = async event => {
         event.preventDefault();
         try {
             await addDuty({
-                variables: { dutyText, dutyDistinction, dueDate, dutyDeposit }
+                variables: { ...formState }
             });
-            setText('');
-            setDistinction('');
-            setDate('');
-            setDeposit('');
         }
         catch (e) {
             console.error(e);
@@ -54,22 +58,22 @@ const Delegation = () => {
             <form onSubmit={handleFormSubmit} />
             <textarea
                 placeholder='What is the new duty...'
-                value={dutyText}
+                value={formState.dutyText}
                 onChange={handleChange}
             />
             <textarea
                 placeholder='Explain the duty here'
-                value={dutyDistinction}
+                value={formState.dutyDistinction}
                 onChange={handleChange}
             />
             <textarea
                 placeholder='When is the due date'
-                value={dueDate}
+                value={formState.dueDate}
                 onChange={handleChange}
             />
             <textarea
                 placeholder='Allowance Amount'
-                value={dutyDeposit}
+                value={formState.dutyDeposit}
                 onChange={handleChange}
             />
             <button>Submit</button>
