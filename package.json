@@ -1,6 +1,5 @@
 {
   "name": "project-3-test",
-  "homepage": "http://kdingman.github.io/duty-docket",
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
@@ -14,8 +13,6 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
   },
   "keywords": [],
   "author": "",
