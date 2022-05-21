@@ -39,11 +39,7 @@ export const QUERY_DUTY = gql`
       }
     }
   }
-<<<<<<< HEAD
-`;
-=======
 `
->>>>>>> f78be9fc570a974b80afaad04d66b3bdef4c0f71
 
 export const QUERY_ME = gql`
   {
@@ -54,18 +50,6 @@ export const QUERY_ME = gql`
       duties {
         _id
         dutyText
-<<<<<<< HEAD
-        dutyDisctinction
-        dueDate
-        dutyDeposit
-        createdAt
-      }
-    }
-    dutyDoer {
-      _id
-      username
-    }
-=======
         createdAt
         dueDate
         dutyDistinction
@@ -76,6 +60,5 @@ export const QUERY_ME = gql`
         }
       }
     }
->>>>>>> f78be9fc570a974b80afaad04d66b3bdef4c0f71
   }
 `;
