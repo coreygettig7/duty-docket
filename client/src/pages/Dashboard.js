@@ -9,7 +9,7 @@ const Dashboard = () => {
         <Header />
       </div>
       <div id="right-component">
-    
+      Hotdog gang 🌭
       </div>
     </div>
   )

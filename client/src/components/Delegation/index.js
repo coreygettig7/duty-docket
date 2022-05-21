@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
+import 'cirrus-ui';
 import { useMutation } from '@apollo/client';
 import { ADD_DUTY } from '../../utils/mutations';
-import { QUERY_ME_DUTIES } from '../../utils/queries';
+import { QUERY_ME_DUTIES, QUERY_ME } from '../../utils/queries';
+
 
 const Delegation = () => {
-    // const [dutyText, setText] = useState('');
-    // const [dutyDistinction, setDistinction] = useState('');
-    // const [dueDate, setDate] = useState('');
-    // const [dutyDeposit, setDeposit] = useState('');
     const [formState, setFormState] = useState({ 
         dutyText: '', 
         dutyDistinction: '', 
         dueDate: '', 
         dutyDeposit: ''
     });
-
     const [addDuty, {error}] = useMutation(ADD_DUTY, {
         update(cache, { data: { addDuty }}) {
             try {
@@ -36,7 +33,6 @@ const Delegation = () => {
     });
     const handleChange = event => {
         const { name, value } = event.target;
-
         setFormState({
             ...formState,
             [name]: value,
