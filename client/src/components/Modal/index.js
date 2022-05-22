@@ -35,12 +35,13 @@ function Modal({currentDuty}) {
           placeholder={dueDate}></input>
         </div>
 
-        <div className="input-control">
-          <label className="font-bold text-light">Duty Distinction</label>
-          <input
-          type="text"
-          className="input--xs"
-          placeholder={dutyDistinction}></input>
+        <div className="input-control list-dropdown">
+          <label for="distinction" className="font-bold text-light">Duty Distinction</label>
+          <select name="distinction" id="dutyDistinction">
+            <option value="Not started">Not Started</option>
+            <option value="In progress">In progress</option>
+            <option value="Completed">Completed</option>
+          </select>
         </div>
         
         <div className="input-control mb-2">
