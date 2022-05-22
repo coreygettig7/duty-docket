@@ -50,7 +50,7 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/duty/:id" element={<SingleDuty />} />
               {/*<Route path="/delgation" element={<Delegation />} />*/}
-              <Route path="*" eelement={<NoMatch />} />
+              <Route path="*" element={<NoMatch />} />
             </Routes>
           </main>
         </div>

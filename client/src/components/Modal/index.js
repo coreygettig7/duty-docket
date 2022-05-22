@@ -6,6 +6,9 @@ function Modal({currentDuty}) {
   return (
 
     <div className="modal modalBackdrop" id="edit-modal">
+      <a href="#anchor-to-background" className="u-pull-right text-light mr-3" aria-label="Close">
+            CLOSE ❌
+        </a>
       <form className="form bg-color p-4">
         <div className="input-control">
           <label className="font-bold text-light">Duty Text</label>
