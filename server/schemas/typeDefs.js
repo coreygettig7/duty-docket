@@ -39,6 +39,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     addDuty(dutyText: String!, dutyDistinction: String!, dueDate: String!, dutyDeposit: String): Duty
     addDoer(dutyId: ID!, name: String!): Duty
+    updateDuty(dutyId: ID!, dutyText: String, dutyDistinction: String, dueDate: String, dutyDeposit: String): Duty
   }
 `;
 module.exports = typeDefs;
