@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_DUTY } from '../../utils/mutations';
-import { QUERY_DUTY, QUERY_ME } from '../../utils/queries';
+import { QUERY_DUTY } from '../../utils/queries';
 import { useParams } from 'react-router-dom';
 
 function Modal({currentDuty}) {
@@ -30,7 +30,8 @@ function Modal({currentDuty}) {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    console.log(dutyId, dutyText, dueDate, dutyDistinction, dutyDeposit)
+    // // test what's being passed to the backend
+    //console.log(dutyId, dutyText, dueDate, dutyDistinction, dutyDeposit)
 
     try {
       // update duty in the database
@@ -41,9 +42,6 @@ function Modal({currentDuty}) {
       setDueDate('');
       setDutyDistinction('');
       setDutyDeposit('');
-
-      // test what's being passed to the backend from the form
-      // console.log(newDutyText, newDueDate, newDutyDistinction, newDutyDeposit)
     } catch(e) {
       console.log(e);
     }
@@ -74,7 +72,7 @@ function Modal({currentDuty}) {
           <input 
           type="text" 
           className="input--xs"
-          placeholder={text}
+          placeholder={duty.dutyText}
           id="dutyText"
           name="dutyText"
           value={dutyText}
@@ -85,7 +83,7 @@ function Modal({currentDuty}) {
           <input
           type="text"
           className="input--xs"
-          placeholder={date}
+          placeholder={duty.dueDate}
           name="dueDate"
           id="dueDate"
           value={dueDate}
@@ -97,7 +95,7 @@ function Modal({currentDuty}) {
           <input
           type="text"
           className="input--xs"
-          placeholder={distinction}
+          placeholder={duty.dutyDistinction}
           name="dutyDistinction"
           id="dutyDistinction"
           value={dutyDistinction}
@@ -109,7 +107,7 @@ function Modal({currentDuty}) {
          <input
           type="text"
           className="input--xs"
-          placeholder={deposit}
+          placeholder={duty.dutyDeposit}
           id="dutyDeposit"
           name="dutyDeposit"
           value={dutyDeposit}
