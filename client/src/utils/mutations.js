@@ -55,3 +55,15 @@ mutation addDuty($dutyText: String!, $dutyDistinction: String!, $dueDate: String
   }
 }
 `;
+
+// query to update a duty
+export const UPDATE_DUTY = gql `
+mutation updateDuty($dutyId: ID!, $dutyText: String, $dutyDistinction: String, $dueDate: String, $dutyDeposit: String) {
+  updateDuty(dutyId: $dutyId, dutyText: $dutyText, dutyDistinction: $dutyDistinction, dueDate: $dueDate, dutyDeposit: $dutyDeposit) {
+    _id
+    dutyText
+    dutyDistinction
+    dutyDeposit
+  }
+}
+`;
