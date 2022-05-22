@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { UPDATE_DUTY } from '../../utils/mutations'
 
 function Modal({currentDuty}) {
-  const { dutyText, createdAt, dueDate, dutyDistinction, dutyDeposit, dutyDoer, _id } = currentDuty;
+  const { dutyText, dueDate, dutyDistinction, dutyDeposit } = currentDuty; 
+
+  const [ newDutyText, setDutyText ] = useState(dutyText);
+  const [ newDueDate, setDueDate ] = useState(dueDate);
+  const [ newDutyDistinction, setDutyDistinction ] = useState(dutyDistinction);
+  const [ newDutyDeposit, setDutyDeposit ] = useState(dutyDeposit);
+
+  const [updateDuty, { error }] = useMutation(UPDATE_DUTY);
+
+
+  const handleFormSubmit = async event => {
+    event.preventDefault();
+    try {
+      // update duty in the database
+      await updateDuty({
+        variables: { dutyText, dueDate, dutyDistinction, dutyDeposit }
+      })
+      setDutyText('');
+      setDueDate('');
+      setDutyDistinction('');
+      setDutyDeposit('');
+    } catch(e) {
+      console.log(e);
+    }
+  }
 
   return (
 
@@ -9,7 +35,7 @@ function Modal({currentDuty}) {
       <a href="#anchor-to-background" className="u-pull-right text-light mr-3" aria-label="Close">
             CLOSE ❌
         </a>
-      <form className="form bg-color p-4">
+      <form className="form bg-color p-4" onSubmit={handleFormSubmit}>
         <div className="input-control">
           <label className="font-bold text-light">Duty Text</label>
           <input 
@@ -18,15 +44,6 @@ function Modal({currentDuty}) {
           placeholder={dutyText}
           id="dutyText"></input>
         </div>
-
-        <div className="input-control">
-          <label className="font-bold text-light">Created At</label>
-          <input
-          type="text"
-          className="input--xs"
-          placeholder={createdAt}></input>
-        </div>
-
         <div className="input-control">
           <label className="font-bold text-light">Due Date</label>
           <input
@@ -46,14 +63,14 @@ function Modal({currentDuty}) {
         
         <div className="input-control mb-2">
           <label className="font-bold text-light">Duty Deposit</label>
-          <input
+         <input
           type="text"
           className="input--xs"
           placeholder={dutyDeposit}></input>
         </div>
 
         <div className="input-control">
-          <button className="btn">Update</button>
+          <button className="btn" type="submit">Update</button>
         </div>
       </form>
   </div>
