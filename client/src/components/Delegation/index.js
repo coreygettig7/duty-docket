@@ -6,97 +6,73 @@ import { QUERY_ME_DUTIES, QUERY_ME } from '../../utils/queries';
 
 
 const Delegation = () => {
-    const [dutyText, setText] = useState('');
-    const [dutyDistinction, setDistinction] = useState('');
-    const [dueDate, setDate] = useState('');
-    const [dutyDeposit, setDeposit] = useState('');
-
+    const [formState, setFormState] = useState({ 
+        dutyText: '', 
+        dutyDistinction: '', 
+        dueDate: '', 
+        dutyDeposit: ''
+    });
     const [addDuty, {error}] = useMutation(ADD_DUTY, {
         update(cache, { data: { addDuty }}) {
             try {
-                const { me } = cache.readQuery({ query: QUERY_ME });
+                const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
                 cache.writeQuery({
-                    query: QUERY_ME,
-                    data: { me: { ...me, duties: [...me.duties, addDuty]}}
+                    query: QUERY_ME_DUTIES,
+                    data: { duties: [addDuty, ...duties ] }
                 });
             }
             catch (e) {
                 console.error(e);
             }
-            const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
+            const { me } = cache.readQuery({ query: QUERY_ME_DUTIES });
             cache.writeQuery({
                 query: QUERY_ME_DUTIES,
-                data: { duties: [addDuty, ...duties] }
+                data: { me: { ...me, duties: [...me.duties, addDuty] } }
             });
         }
     });
-    const handleDateChange = event => {
-        setDate(event.target.value);
-        
+    const handleChange = event => {
+        const { name, value } = event.target;
+        setFormState({
+            ...formState,
+            [name]: value,
+        })
     };
-    const handleTextChange = event => {
-        setText(event.target.value)
-        
-    }
-    const handleDistinctionChange = event => {
-        setDistinction(event.target.value);
-    }
-    const handleDepositChange = event => {
-        setDeposit(event.target.value);
-    }
     const handleFormSubmit = async event => {
         event.preventDefault();
         try {
             await addDuty({
-                variables: { dutyText, dutyDistinction, dueDate, dutyDeposit }
+                variables: { ...formState }
             });
-            setText('');
-            setDistinction('');
-            setDate('');
-            setDeposit('');
         }
         catch (e) {
             console.error(e);
         }
     };
     return (
-        <div className="card p-3">
-            <h3 className="text-centered">Add a new duty</h3>
+        <div>
             <form onSubmit={handleFormSubmit} />
-            <input
+            <textarea
                 placeholder='What is the new duty...'
-                value={dutyText}
-                onChange={handleTextChange}
-                name="dutyText"
-                id="dutyText"
-                className="mb-2"
+                value={formState.dutyText}
+                onChange={handleChange}
             />
-            <input
-                placeholder='What is the status of the duty'
-                value={dutyDistinction}
-                onChange={handleDistinctionChange}
-                className="mb-2"
-                id="dutyDistinction"
-                name="duytDistinction"
+            <textarea
+                placeholder='Explain the duty here'
+                value={formState.dutyDistinction}
+                onChange={handleChange}
             />
-            <input
+            <textarea
                 placeholder='When is the due date'
-                value={dueDate}
-                onChange={handleDateChange}
-                className="mb-2"
-                name="dueDate"
-                id="dueDate"
+                value={formState.dueDate}
+                onChange={handleChange}
             />
-            <input
+            <textarea
                 placeholder='Allowance Amount'
-                value={dutyDeposit}
-                onChange={handleDepositChange}
-                className="mb-2"
-                name="dutyDeposit"
-                id="dutyDeposit"
+                value={formState.dutyDeposit}
+                onChange={handleChange}
             />
-            <button type="submit">Submit</button>
-            {error && <div>Please complete the form</div>}
+            <button>Submit</button>
         </div>
     )
 };
