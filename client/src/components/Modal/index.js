@@ -6,13 +6,13 @@ import { useParams } from 'react-router-dom';
 
 function Modal({currentDuty}) {
   // destructure the props
-  const { dutyText, dueDate, dutyDistinction, dutyDeposit } = currentDuty; 
+  const { text, date, distinction, deposit } = currentDuty; 
   
   
-  const [ newDutyText, setDutyText ] = useState('');
-  const [ newDueDate, setDueDate ] = useState('');
-  const [ newDutyDistinction, setDutyDistinction ] = useState('');
-  const [ newDutyDeposit, setDutyDeposit ] = useState('');
+  const [ dutyText, setDutyText ] = useState(text);
+  const [ dueDate, setDueDate ] = useState('');
+  const [ dutyDistinction, setDutyDistinction ] = useState('');
+  const [ dutyDeposit, setDutyDeposit ] = useState('');
 
   const [updateDuty, { error }] = useMutation(UPDATE_DUTY);
 
@@ -21,13 +21,21 @@ function Modal({currentDuty}) {
   const {loading, data } = useQuery(QUERY_DUTY, {
     variables: { id: dutyId }
   })
+  const duty = data?.duty || {};
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
 
   const handleFormSubmit = async event => {
     event.preventDefault();
+    console.log(dutyId, dutyText, dueDate, dutyDistinction, dutyDeposit)
+
     try {
       // update duty in the database
       await updateDuty({
-        variables: { dutyId, newDutyText, newDueDate, newDutyDistinction, newDutyDeposit }
+        variables: { dutyId, dutyText, dueDate, dutyDistinction, dutyDeposit }
       })
       setDutyText('');
       setDueDate('');
@@ -66,9 +74,10 @@ function Modal({currentDuty}) {
           <input 
           type="text" 
           className="input--xs"
-          placeholder={dutyText}
+          placeholder={text}
           id="dutyText"
           name="dutyText"
+          value={dutyText}
           onChange={handleDutyTextChange}></input>
         </div>
         <div className="input-control">
@@ -76,9 +85,10 @@ function Modal({currentDuty}) {
           <input
           type="text"
           className="input--xs"
-          placeholder={dueDate}
+          placeholder={date}
           name="dueDate"
           id="dueDate"
+          value={dueDate}
           onChange={handleDueDateChange}></input>
         </div>
 
@@ -87,9 +97,10 @@ function Modal({currentDuty}) {
           <input
           type="text"
           className="input--xs"
-          placeholder={dutyDistinction}
+          placeholder={distinction}
           name="dutyDistinction"
           id="dutyDistinction"
+          value={dutyDistinction}
           onChange={handleDutyDistinctionChange}></input>
         </div>
         
@@ -98,9 +109,10 @@ function Modal({currentDuty}) {
          <input
           type="text"
           className="input--xs"
-          placeholder={dutyDeposit}
+          placeholder={deposit}
           id="dutyDeposit"
           name="dutyDeposit"
+          value={dutyDeposit}
           onChange={handleDutyDepositChange}></input>
         </div>
 
