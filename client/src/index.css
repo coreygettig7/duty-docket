@@ -6,7 +6,7 @@ main {
 
 :root {
   --primary: #43A8DE;
-  --secondary: #5E60CE;
+  --secondary: #9c9ef0;
   --tertiary: #7400BB;
   --quarternary: #80FFDB;
   --light: #fafafa;
@@ -16,7 +16,12 @@ main {
 }
 .bg-color {
   background-color: var(--secondary);
+  font-weight: bold;
 }
+.error {
+  color: var(--error);
+}
+
 .logo-text {
   color: var(--quarternary);
 }
@@ -60,4 +65,7 @@ main {
 	right: 0;
 	top: 0;
 	z-index: 1;
+}
+.modalBackground {
+  background: rgba(32, 5, 61, 0.738);
 }

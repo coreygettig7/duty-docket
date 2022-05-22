@@ -79,7 +79,7 @@ const resolvers = {
           { $set: { dutyText, dutyDistinction, dueDate, dutyDeposit }},
           { new: true }
         );
-
+            console.log(duty)
         await User.findByIdAndUpdate(
           { _id: context.user._id },
           { $push: { duties: duty._id } },

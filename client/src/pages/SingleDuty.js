@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_DUTY } from '../utils/queries';
 import DoersList from '../components/DoersList';
 import Modal from '../components/Modal';
-
+import { Link } from 'react-router-dom'
 
 
 const SingleDuty = () => {
@@ -31,6 +31,7 @@ const SingleDuty = () => {
 
   return (
     <div>
+      <Link to="/dashboard"> ⃪ return to the dashboard</Link>
       {isModalOpen && <Modal currentDuty={currentDuty}/>}
       <div className="tile bg-white set-width p-4">
         <div className="tile__icon">
