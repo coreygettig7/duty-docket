@@ -7,7 +7,7 @@ import Modal from '../components/Modal';
 import { Link } from 'react-router-dom'
 
 
-const SingleDuty = () => {
+const SingleDuty = (props) => {
   const [ currentDuty, setCurrentDuty ] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
