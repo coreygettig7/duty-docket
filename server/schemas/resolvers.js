@@ -72,6 +72,23 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     },
+    updateDuty: async (parent, { dutyId, dutyText, dutyDistinction, dueDate, dutyDeposit }, context) => {
+      if(context.user) {
+        const duty = await Duty.findByIdAndUpdate(
+          { _id: dutyId },
+          { $set: { dutyText, dutyDistinction, dueDate, dutyDeposit }},
+          { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $push: { duties: duty._id } },
+          { new: true }
+        )
+        return duty;
+      }
+      throw new AuthenticationError('You need to be logged in!');
+    },
     addDoer: async (parent, { dutyId, name }, context) => {
       if (context.user) {
         const updatedDuty = await Duty.findOneAndUpdate(
