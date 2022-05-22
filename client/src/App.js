@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import SingleDuty from './pages/SingleDuty';
 import Signup from './pages/Signup';
 import NoMatch from './pages/NoMatch';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -37,10 +37,10 @@ function App() {
       <Router>
         <div className='u-flex-column u-justify-center m-4'>
           <Helmet>
-            <style>{'body { background-color: #f7fbff}'}</style>
+            <style>{'body { background-color: #9c9ef0}'}</style>
           </Helmet>
           <header>
-            <h1 className='logo-text'><Link to="/dashboard">Duty Docket</Link></h1>
+            <h1 className='logo-text'>Duty Docket</h1>
           </header>
   
           <main className='u-flex u-items-center u-justify-space-evenly'>
