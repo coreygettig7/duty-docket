@@ -31,7 +31,6 @@ class AuthService {
   // set token to localStorage and reload page to dashboard
   login(idToken) {
     localStorage.setItem('id_token', idToken);
-<<<<<<< HEAD
     if (!idToken) {
       window.location.assign('/');
     } else {
@@ -39,15 +38,6 @@ class AuthService {
     }
   }
   
-=======
-    window.location.assign('/dashboard');
-  }
-  // addUser(idToken) {
-  //   localStorage.setItem('id_token', idToken);
-  //   window.location.assign('/dashboard');
-  // }
-  // clear token from localStorage and force logout
->>>>>>> 49b9f2e9b2a1faad2927c7441975514425e9d816
   logout() {
     localStorage.removeItem('id_token');
     window.location.assign('/');
