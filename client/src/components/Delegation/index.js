@@ -5,6 +5,7 @@ import { ADD_DUTY } from '../../utils/mutations';
 
 
 const Delegation = () => {
+<<<<<<< HEAD
     const [dutyText, setText] = useState('');
     const [dutyDistinction, setDistinction] = useState('');
     const [dueDate, setDate] = useState('');
@@ -46,39 +47,80 @@ const Delegation = () => {
             <h3 className="text-centered dark-text">Add a new duty</h3>
             <form onSubmit={handleFormSubmit} >
             <input
+=======
+    const [formState, setFormState] = useState({ 
+        dutyText: '', 
+        dutyDistinction: '', 
+        dueDate: '', 
+        dutyDeposit: ''
+    });
+    const [addDuty, {error}] = useMutation(ADD_DUTY, {
+        update(cache, { data: { addDuty }}) {
+            try {
+                const { duties } = cache.readQuery({ query: QUERY_ME_DUTIES });
+                cache.writeQuery({
+                    query: QUERY_ME_DUTIES,
+                    data: { duties: [addDuty, ...duties ] }
+                });
+            }
+            catch (e) {
+                console.error(e);
+            }
+            const { me } = cache.readQuery({ query: QUERY_ME_DUTIES });
+            cache.writeQuery({
+                query: QUERY_ME_DUTIES,
+                data: { me: { ...me, duties: [...me.duties, addDuty] } }
+            });
+        }
+    });
+    const handleChange = event => {
+        const { name, value } = event.target;
+        setFormState({
+            ...formState,
+            [name]: value,
+        })
+    };
+    const handleFormSubmit = async event => {
+        event.preventDefault();
+        try {
+            await addDuty({
+                variables: { ...formState }
+            });
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+    return (
+        <div>
+            <form onSubmit={handleFormSubmit} />
+            <textarea
+>>>>>>> 0204ed1f345b676de3f2caebf02caac94b8b0773
                 placeholder='What is the new duty...'
-                value={dutyText}
-                onChange={handleTextChange}
-                name="dutyText"
-                id="dutyText"
-                className="mb-2"
+                value={formState.dutyText}
+                onChange={handleChange}
             />
-            <input
-                placeholder='What is the status of the duty'
-                value={dutyDistinction}
-                onChange={handleDistinctionChange}
-                className="mb-2"
-                id="dutyDistinction"
-                name="duytDistinction"
+            <textarea
+                placeholder='Explain the duty here'
+                value={formState.dutyDistinction}
+                onChange={handleChange}
             />
-            <input
+            <textarea
                 placeholder='When is the due date'
-                value={dueDate}
-                onChange={handleDateChange}
-                className="mb-2"
-                name="dueDate"
-                id="dueDate"
+                value={formState.dueDate}
+                onChange={handleChange}
             />
-            <input
+            <textarea
                 placeholder='Allowance Amount'
-                value={dutyDeposit}
-                onChange={handleDepositChange}
-                className="mb-2"
-                name="dutyDeposit"
-                id="dutyDeposit"
+                value={formState.dutyDeposit}
+                onChange={handleChange}
             />
+<<<<<<< HEAD
             <button type="submit" className="btn">Submit</button>
         </form>
+=======
+            <button>Submit</button>
+>>>>>>> 0204ed1f345b676de3f2caebf02caac94b8b0773
         </div>
         </section>
         
