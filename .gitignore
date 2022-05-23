@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 **/node_modules
 .vscode/
+=======
+<<<<<<< HEAD
+**/node_modules
+.vscode/
+=======
+/node_modules
+>>>>>>> 0204ed1f345b676de3f2caebf02caac94b8b0773
+>>>>>>> 89b672db4fae442afacfeba36bf6e54da46e8c11
