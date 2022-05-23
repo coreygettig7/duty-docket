@@ -37,10 +37,10 @@ const SingleDuty = (props) => {
       await deleteDuty({
         variables: { dutyId }
       })
-      window.location.assign("/dashboard");
     } catch(e) {
       console.error(e);
     }
+    window.location.assign("/dashboard");
   }
 
   return (

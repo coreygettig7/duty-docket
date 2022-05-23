@@ -87,7 +87,7 @@ function Modal({currentDuty}) {
           onChange={handleDueDateChange}></input>
         </div>
 
-        <div className="input-control list-dropdown">
+        <div className="input-control">
           <label for="distinction" className="font-bold text-light">Duty Distinction</label>
           <input
           type="text"
