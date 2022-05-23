@@ -33,7 +33,7 @@ main {
   color: var(--light);
 }
 .dark-text {
-  color: var(--secondary)
+  color: var(--secondary);
 }
 .tertiary-bg{
   background-color: var(--secondary);
