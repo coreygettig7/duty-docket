@@ -31,13 +31,13 @@ class AuthService {
   // set token to localStorage and reload page to dashboard
   login(idToken) {
     localStorage.setItem('id_token', idToken);
-    window.location.assign('/dashboard');
+    if (!idToken) {
+      window.location.assign('/');
+    } else {
+      window.location.assign('/dashboard')
+    }
   }
-  // addUser(idToken) {
-  //   localStorage.setItem('id_token', idToken);
-  //   window.location.assign('/dashboard');
-  // }
-  // clear token from localStorage and force logout
+  
   logout() {
     localStorage.removeItem('id_token');
     window.location.assign('/');

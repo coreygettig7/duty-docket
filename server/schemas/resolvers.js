@@ -79,15 +79,22 @@ const resolvers = {
           { $set: { dutyText, dutyDistinction, dueDate, dutyDeposit }},
           { new: true }
         );
-            console.log(duty)
-        await User.findByIdAndUpdate(
-          { _id: context.user._id },
-          { $push: { duties: duty._id } },
-          { new: true }
-        )
         return duty;
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+    removeDuty: async (parent, { dutyId }, context) => {
+      if (context.user) {
+
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: context.user._id },
+          { $pull: { duties:  dutyId } },
+          { new: true }
+        ).populate('duties');
+
+        return updatedUser;
+      }
+      throw new AuthenticationError('You need to be logged in!')
     },
     addDoer: async (parent, { dutyId, name }, context) => {
       if (context.user) {
@@ -99,7 +106,7 @@ const resolvers = {
         return updatedDuty;
       }
       throw new AuthenticationError('You need to be logged in!');
-    }
+    },
   }
 }
 

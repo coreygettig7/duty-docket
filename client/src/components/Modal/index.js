@@ -9,7 +9,7 @@ function Modal({currentDuty}) {
   const { text, date, distinction, deposit } = currentDuty; 
   
   
-  const [ dutyText, setDutyText ] = useState(text);
+  const [ dutyText, setDutyText ] = useState('');
   const [ dueDate, setDueDate ] = useState('');
   const [ dutyDistinction, setDutyDistinction ] = useState('');
   const [ dutyDeposit, setDutyDeposit ] = useState('');
@@ -38,10 +38,7 @@ function Modal({currentDuty}) {
       await updateDuty({
         variables: { dutyId, dutyText, dueDate, dutyDistinction, dutyDeposit }
       })
-      setDutyText('');
-      setDueDate('');
-      setDutyDistinction('');
-      setDutyDeposit('');
+      
     } catch(e) {
       console.log(e);
     }
@@ -90,7 +87,7 @@ function Modal({currentDuty}) {
           onChange={handleDueDateChange}></input>
         </div>
 
-        <div className="input-control list-dropdown">
+        <div className="input-control">
           <label for="distinction" className="font-bold text-light">Duty Distinction</label>
           <input
           type="text"

@@ -4,11 +4,11 @@ function Navigation(props) {
   const tabs = ['Daily Duties', 'Duty Docket', 'Duty Delegation'];
   return (
     <div className="tabs">
-      <ul className="nav nav-tabs menu-u-pull-left">
+      <ul className="nav  u-pull-left mr-4">
         {tabs.map((tab) => (
           <li
             className={
-              props.currentPage === tab ? "nav-item menu-item selected" : "nav-item menu-item"
+              props.currentPage === tab ? "nav-item border_" : "nav-item"
             }
             key={tab}
           >
@@ -18,7 +18,7 @@ function Navigation(props) {
               // the current page is set through the handlePageChange props.
               onClick={() => props.handlePageChange(tab)}
               className={
-                props.currentPage === tab ? "nav-link" : "nav-link"
+                props.currentPage === tab ? "navie-link" : "navie-link"
               }
             >
               {tab}

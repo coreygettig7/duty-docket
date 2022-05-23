@@ -40,6 +40,7 @@ const typeDefs = gql`
     addDuty(dutyText: String!, dutyDistinction: String!, dueDate: String!, dutyDeposit: String): Duty
     addDoer(dutyId: ID!, name: String!): Duty
     updateDuty(dutyId: ID!, dutyText: String, dutyDistinction: String, dueDate: String, dutyDeposit: String): Duty
+    removeDuty(dutyId: ID!): Duty
   }
 `;
 module.exports = typeDefs;

@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_DUTY } from '../utils/queries';
 import DoersList from '../components/DoersList';
 import Modal from '../components/Modal';
 import { Link } from 'react-router-dom'
+import { DELETE_DUTY } from '../utils/mutations';
 
 
 const SingleDuty = (props) => {
   const [ currentDuty, setCurrentDuty ] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const [deleteDuty] = useMutation(DELETE_DUTY);
 
 
   const { id: dutyId } = useParams();
@@ -27,6 +30,17 @@ const SingleDuty = (props) => {
   const openDuty = (duty) => {
     setCurrentDuty({ ...duty});
     setIsModalOpen(true);
+  }
+
+  const deleteHandler = async (duty) => {
+    try {
+      await deleteDuty({
+        variables: { dutyId }
+      })
+    } catch(e) {
+      console.error(e);
+    }
+    window.location.assign("/dashboard");
   }
 
   return (
@@ -52,7 +66,12 @@ const SingleDuty = (props) => {
             >
                 Edit
             </a>
-            <button className="btn-primary btn--sm uppercase">Delete</button>
+            <button 
+              className="btn-primary btn--sm uppercase"
+              onClick={() => deleteHandler(duty)}
+              >
+                Delete
+            </button>
           </div>
         </div>
       </div>
