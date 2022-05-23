@@ -66,6 +66,7 @@ mutation updateDuty($dutyId: ID!, $dutyText: String, $dutyDistinction: String, $
     dutyDeposit
   }
 }
+<<<<<<< HEAD
 `;
 
 // query to delete a duty
@@ -76,4 +77,6 @@ mutation removeDuty($dutyId: ID!) {
     dutyText
   }
 }
+=======
+>>>>>>> 49b9f2e9b2a1faad2927c7441975514425e9d816
 `;

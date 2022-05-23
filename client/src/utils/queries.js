@@ -1,5 +1,6 @@
 import { gql } from '@apollo/client';
 
+<<<<<<< HEAD
 export const QUERY_ME = gql`
   { 
     me {
@@ -17,6 +18,9 @@ export const QUERY_ME = gql`
     }
   }
 `;
+=======
+
+>>>>>>> 49b9f2e9b2a1faad2927c7441975514425e9d816
 
 export const QUERY_ME_DUTIES = gql`
   {
@@ -56,3 +60,28 @@ export const QUERY_DUTY = gql`
     }
   }
 `
+<<<<<<< HEAD
+=======
+
+export const QUERY_ME = gql`
+  {
+    me {
+      _id
+      username
+      email
+      duties {
+        _id
+        dutyText
+        createdAt
+        dueDate
+        dutyDistinction
+        dutyDeposit
+        dutyDoer {
+          _id
+          name
+        }
+      }
+    }
+  }
+`;
+>>>>>>> 49b9f2e9b2a1faad2927c7441975514425e9d816
