@@ -1,8 +1,16 @@
 {
+<<<<<<< HEAD
   "name": "duty-client",
+=======
+  "name": "duty-docket",
+>>>>>>> 0204ed1f345b676de3f2caebf02caac94b8b0773
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
+  "engines": {
+    "node": ">=16.14.2",
+    "npm": ">=6.14.5"
+  },
   "scripts": {
     "start": "node server/server.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",

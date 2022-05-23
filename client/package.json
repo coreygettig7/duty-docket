@@ -1,8 +1,12 @@
 {
+<<<<<<< HEAD
   "name": "duty-docket",
+=======
+  "name": "duty-client",
+>>>>>>> 0204ed1f345b676de3f2caebf02caac94b8b0773
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:3001",
+  "proxy": "http://localhost:3001/",
   "dependencies": {
     "@apollo/client": "^3.6.2",
     "@emotion/react": "^11.9.0",
