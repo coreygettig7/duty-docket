@@ -35,8 +35,9 @@ const SingleDuty = (props) => {
   const deleteHandler = async (duty) => {
     try {
       await deleteDuty({
-        variables: { id: duty._id}
+        variables: { dutyId }
       })
+      window.location.assign("/dashboard");
     } catch(e) {
       console.error(e);
     }
