@@ -41,8 +41,9 @@ const Delegation = () => {
         setDeposit(event.target.value);
     }
     return (
-        <div className="card p-3">
-            <h3 className="text-centered">Add a new duty</h3>
+        <section id="delegation-wrapper" className="ml-2">
+            <div className="card p-3">
+            <h3 className="text-centered dark-text">Add a new duty</h3>
             <form onSubmit={handleFormSubmit} >
             <input
                 placeholder='What is the new duty...'
@@ -79,6 +80,8 @@ const Delegation = () => {
             <button type="submit" className="btn">Submit</button>
         </form>
         </div>
+        </section>
+        
     )
 };
 export default Delegation;

@@ -14,6 +14,10 @@ main {
   --darker: #111111;
   --error: rgb(228, 46, 1);
 }
+
+.navie-link:hover {
+  color: #FF80BD;
+}
 .bg-color {
   background-color: var(--secondary);
   font-weight: bold;
@@ -36,7 +40,10 @@ main {
 }
 
 .border_{
-  border: 3px solid black;
+  border: 3px solid var(--quarternary);
+  padding: 1px;
+  outline: none;
+  background-color: rgba(128, 255, 219, .25);
 }
 
 .icon-container {
@@ -51,7 +58,7 @@ main {
 .my_button {
   padding: 10px;
   border: 1px solid lightgray;
-  color: black;
+  color: var(--secondary);
   margin: 3px;
   border-radius: 10%;
 }
