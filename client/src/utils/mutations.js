@@ -67,3 +67,13 @@ mutation updateDuty($dutyId: ID!, $dutyText: String, $dutyDistinction: String, $
   }
 }
 `;
+
+// query to delete a duty
+export const DELETE_DUTY = gql`
+mutation removeDuty($dutyId: ID!) {
+  removeDuty(dutyId: $dutyId) {
+    _id
+    dutyText
+  }
+}
+`;
